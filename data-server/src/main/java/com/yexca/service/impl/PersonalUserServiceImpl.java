@@ -18,6 +18,7 @@ import com.yexca.result.PageResult;
 import com.yexca.service.PersonalUserService;
 import com.yexca.vo.EmployeePageQueryVO;
 import com.yexca.vo.PersonalUserPageQueryVO;
+import com.yexca.vo.PersonalUserUpdateVO;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,22 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         personalUser.setUpdateFrom(FromConstant.ADMIN);
 
         personalUserMapper.update(personalUser);
+    }
+
+    /**
+     * 通过ID获取用户信息
+     * @param id
+     * @return
+     */
+    @Override
+    public PersonalUserUpdateVO getById(Long id) {
+        PersonalUser personalUser = personalUserMapper.getById(id);
+
+        // 拷贝属性到返回对象
+        PersonalUserUpdateVO personalUserUpdateVO = new PersonalUserUpdateVO();
+        BeanUtils.copyProperties(personalUser, personalUserUpdateVO);
+
+        return personalUserUpdateVO;
     }
 
     /**

@@ -4,6 +4,7 @@ import com.yexca.dto.PersonalUserAddDTO;
 import com.yexca.dto.PersonalUserPageQueryDTO;
 import com.yexca.dto.PersonalUserUpdateDTO;
 import com.yexca.result.PageResult;
+import com.yexca.vo.PersonalUserUpdateVO;
 
 public interface PersonalUserService {
     /**
@@ -31,4 +32,11 @@ public interface PersonalUserService {
      * @param personalUserUpdateDTO
      */
     void update(Long id, PersonalUserUpdateDTO personalUserUpdateDTO);
+
+    /**
+     * 通过ID获取用户信息
+     * @param id
+     * @return
+     */
+    PersonalUserUpdateVO getById(Long id);
 }

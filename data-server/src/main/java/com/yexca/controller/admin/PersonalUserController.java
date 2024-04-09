@@ -6,6 +6,7 @@ import com.yexca.dto.PersonalUserUpdateDTO;
 import com.yexca.result.PageResult;
 import com.yexca.result.Result;
 import com.yexca.service.PersonalUserService;
+import com.yexca.vo.PersonalUserUpdateVO;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,13 @@ public class PersonalUserController {
         log.info("个人用户分页查询：{}", personalUserPageQueryDTO);
         PageResult pageResult = personalUserService.pageQuery(personalUserPageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    @GetMapping("/{id}")
+    public Result<PersonalUserUpdateVO> getById(@PathVariable Long id){
+        log.info("获取个人用户信息ID：{}", id);
+        PersonalUserUpdateVO personalUserUpdateVO = personalUserService.getById(id);
+        return Result.success(personalUserUpdateVO);
     }
 
     /**

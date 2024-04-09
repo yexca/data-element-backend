@@ -13,4 +13,6 @@ public class RoleListVO implements Serializable {
     private Integer roleId;
 
     private String Name;
+
+    private Integer status;
 }

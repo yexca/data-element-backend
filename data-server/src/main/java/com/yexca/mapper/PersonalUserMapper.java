@@ -6,6 +6,7 @@ import com.yexca.entity.PersonalUser;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface PersonalUserMapper {
@@ -19,4 +20,7 @@ public interface PersonalUserMapper {
     Page<PersonalUser> pageQuery(PersonalUserPageQueryDTO personalUserPageQueryDTO);
 
     void update(PersonalUser personalUser);
+
+    @Select("select * from personal_user where user_id = #{id}")
+    PersonalUser getById(Long id);
 }

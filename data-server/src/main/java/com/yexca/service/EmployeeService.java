@@ -6,7 +6,6 @@ import com.yexca.dto.EmployeePageQueryDTO;
 import com.yexca.dto.EmployeeUpdateDTO;
 import com.yexca.entity.Employee;
 import com.yexca.result.PageResult;
-import com.yexca.vo.EmployeePageQueryVO;
 import com.yexca.vo.EmployeeUpdateVO;
 
 public interface EmployeeService {
