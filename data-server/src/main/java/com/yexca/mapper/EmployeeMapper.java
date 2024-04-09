@@ -3,6 +3,7 @@ package com.yexca.mapper;
 import com.github.pagehelper.Page;
 import com.yexca.dto.EmployeePageQueryDTO;
 import com.yexca.entity.Employee;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -36,4 +37,7 @@ public interface EmployeeMapper {
 
     @Select("select * from employee where employee_id = #{id}")
     Employee getById(Long id);
+
+    @Delete("delete from employee where employee_id = #{id}")
+    void deleteById(Long id);
 }

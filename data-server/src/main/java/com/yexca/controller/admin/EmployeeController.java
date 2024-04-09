@@ -16,6 +16,7 @@ import com.yexca.vo.EmployeeUpdateVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,5 +118,12 @@ public class EmployeeController {
         log.info("根据id获取员工：{}", id);
         EmployeeUpdateVO employeeUpdateVO = employeeService.getById(id);
         return Result.success(employeeUpdateVO);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Long id){
+        log.info("删除员工ID：{}", id);
+        employeeService.deleteById(id);
+        return Result.success();
     }
 }

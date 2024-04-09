@@ -42,4 +42,10 @@ public interface EmployeeService {
      * @return
      */
     EmployeeUpdateVO getById(Long id);
+
+    /**
+     * 根据ID删除员工
+     * @param id
+     */
+    void deleteById(Long id);
 }

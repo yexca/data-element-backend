@@ -168,6 +168,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeUpdateVO;
     }
 
+    @Override
+    public void deleteById(Long id) {
+        employeeMapper.deleteById(id);
+    }
+
     /**
      * 将Employee的信息补全
      * @param record
