@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yexca.mapper.PersonalUserMapper">
+    <update id="update">
+        update personal_user
+        <set>
+            <if test="username != null">username = #{username}, </if>
+            <if test="password != null">password = #{password}</if>
+            <if test="nickname != null">nickname = #{nickname}</if>
+            <if test="email != null">email = #{email}</if>
+            <if test="phone != null">phone = #{phone}</if>
+            <if test="gender != null">gender = #{gender}</if>
+            <if test="countryId != null">country_id = #{countryId}</if>
+            <if test="nin != null">nin = #{nin}</if>
+            <if test="status != null">status = #{status}</if>
+            <if test="wxOpenid != null">wx_openid = #{wxOpenid}</if>
+            <if test="updateBy != null">update_by = #{updateBy}</if>
+            <if test="updateFrom != null">update_from = #{updateFrom}</if>
+            <if test="updateTime != null">update_time = #{updateTime}</if>
+        </set>
+        where user_id = #{userId}
+    </update>
 
 
     <select id="pageQuery" resultType="com.yexca.entity.PersonalUser">

@@ -9,6 +9,7 @@ import com.yexca.constant.StatusConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.PersonalUserAddDTO;
 import com.yexca.dto.PersonalUserPageQueryDTO;
+import com.yexca.dto.PersonalUserUpdateDTO;
 import com.yexca.entity.Employee;
 import com.yexca.entity.PersonalUser;
 import com.yexca.mapper.CountryMapper;
@@ -111,6 +112,29 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         }
 
         return new PageResult(total, resultRecords);
+    }
+
+    /**
+     * 修改个人用户
+     * @param id
+     * @param personalUserUpdateDTO
+     */
+    @Override
+    public void update(Long id, PersonalUserUpdateDTO personalUserUpdateDTO) {
+        PersonalUser personalUser = new PersonalUser();
+        // 拷贝属性
+        BeanUtils.copyProperties(personalUserUpdateDTO, personalUser);
+        // 设置ID
+        personalUser.setUserId(id);
+
+        // 设置修改时间
+        personalUser.setUpdateTime(LocalDateTime.now());
+        // 修改人
+        personalUser.setUpdateBy(BaseContext.getCurrentEmpId());
+        // 修改端
+        personalUser.setUpdateFrom(FromConstant.ADMIN);
+
+        personalUserMapper.update(personalUser);
     }
 
     /**

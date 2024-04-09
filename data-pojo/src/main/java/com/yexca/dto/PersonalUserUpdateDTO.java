@@ -5,7 +5,6 @@ import lombok.Data;
 import java.io.Serializable;
 @Data
 public class PersonalUserUpdateDTO implements Serializable {
-    private Long userId;
 
     private String username;
 

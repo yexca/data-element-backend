@@ -17,4 +17,6 @@ public interface PersonalUserMapper {
     void deleteById(Long id);
 
     Page<PersonalUser> pageQuery(PersonalUserPageQueryDTO personalUserPageQueryDTO);
+
+    void update(PersonalUser personalUser);
 }

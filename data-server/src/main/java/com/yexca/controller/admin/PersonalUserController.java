@@ -6,14 +6,13 @@ import com.yexca.dto.PersonalUserUpdateDTO;
 import com.yexca.result.PageResult;
 import com.yexca.result.Result;
 import com.yexca.service.PersonalUserService;
-import com.yexca.vo.PersonalUserPageQueryVO;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin/user/personal")
+@RequestMapping("/admin/users/personal")
 @Slf4j
 @Api(tags = "个人用户相关接口")
 public class PersonalUserController {
@@ -25,7 +24,7 @@ public class PersonalUserController {
      * @param personalUserAddDTO
      * @return
      */
-    @PostMapping("/add")
+    @PostMapping
     public Result add(@RequestBody PersonalUserAddDTO personalUserAddDTO){
         log.info("增加用户：{}", personalUserAddDTO);
         personalUserService.add(personalUserAddDTO);
@@ -49,7 +48,7 @@ public class PersonalUserController {
      * @param personalUserPageQueryDTO
      * @return
      */
-    @GetMapping("/page")
+    @GetMapping
     public Result<PageResult> pageQuery(PersonalUserPageQueryDTO personalUserPageQueryDTO){
         log.info("个人用户分页查询：{}", personalUserPageQueryDTO);
         PageResult pageResult = personalUserService.pageQuery(personalUserPageQueryDTO);
@@ -61,8 +60,10 @@ public class PersonalUserController {
      * @param personalUserUpdateDTO
      * @return
      */
-    @PutMapping("/edit")
-    public Result update(@RequestBody PersonalUserUpdateDTO personalUserUpdateDTO){
-
+    @PutMapping("/{id}")
+    public Result update(@PathVariable Long id, @RequestBody PersonalUserUpdateDTO personalUserUpdateDTO){
+        log.info("修改个人用户ID：{}，信息：{}", id, personalUserUpdateDTO);
+        personalUserService.update(id, personalUserUpdateDTO);
+        return Result.success();
     }
 }

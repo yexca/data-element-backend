@@ -2,6 +2,7 @@ package com.yexca.service;
 
 import com.yexca.dto.PersonalUserAddDTO;
 import com.yexca.dto.PersonalUserPageQueryDTO;
+import com.yexca.dto.PersonalUserUpdateDTO;
 import com.yexca.result.PageResult;
 
 public interface PersonalUserService {
@@ -23,4 +24,11 @@ public interface PersonalUserService {
      * @return
      */
     PageResult pageQuery(PersonalUserPageQueryDTO personalUserPageQueryDTO);
+
+    /**
+     * 修改个人用户
+     * @param id
+     * @param personalUserUpdateDTO
+     */
+    void update(Long id, PersonalUserUpdateDTO personalUserUpdateDTO);
 }
