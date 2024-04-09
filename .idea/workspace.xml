@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fa5b5834-2d69-4639-9260-52c65c8d0474" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:\develop\apache-maven-3.9.6" />
+        <option name="userSettingsFile" value="D:\develop\apache-maven-3.9.6\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="#JAVA_HOME" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="#JAVA_HOME" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2dgJwtCKou5yLWHvqn0pYDyCxb8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.AppTest.encodePasswd.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.DataElementApplication.executor": "Run",
+    "jdk.selected.JAVA_MODULE": "17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/yexca/IdeaProjects/data-element/data-server/src/main/resources/mapper",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\yexca\IdeaProjects\data-element\data-server\src\main\resources\mapper" />
+      <recent name="C:\Users\yexca\IdeaProjects\data-element\data-common\src\main\java\com\yexca\exception" />
+      <recent name="C:\Users\yexca\IdeaProjects\data-element\data-server\src\main\resources" />
+      <recent name="C:\Users\yexca\IdeaProjects\data-element\data-server\src\main\java\com\yexca" />
+      <recent name="C:\Users\yexca\IdeaProjects\data-element\data-pojo\src\main\java\com\yexca" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="DataElementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="data-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.yexca.DataElementApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.yexca.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.DataElementApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fa5b5834-2d69-4639-9260-52c65c8d0474" name="Changes" comment="" />
+      <created>1710424030612</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710424030612</updated>
+      <workItem from="1710424031757" duration="3530000" />
+      <workItem from="1710462318341" duration="5922000" />
+      <workItem from="1710487463952" duration="972000" />
+      <workItem from="1711526902985" duration="1400000" />
+      <workItem from="1711529415677" duration="5558000" />
+      <workItem from="1711977801748" duration="647000" />
+      <workItem from="1711978972126" duration="2396000" />
+      <workItem from="1711982139781" duration="636000" />
+      <workItem from="1711982785070" duration="320000" />
+      <workItem from="1711983115170" duration="167000" />
+      <workItem from="1711983291557" duration="4193000" />
+      <workItem from="1712026394057" duration="5354000" />
+      <workItem from="1712134070983" duration="595000" />
+      <workItem from="1712239378257" duration="1876000" />
+      <workItem from="1712311811738" duration="1985000" />
+      <workItem from="1712318318830" duration="3068000" />
+      <workItem from="1712383163201" duration="39000" />
+      <workItem from="1712383299027" duration="6562000" />
+      <workItem from="1712623660922" duration="9672000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

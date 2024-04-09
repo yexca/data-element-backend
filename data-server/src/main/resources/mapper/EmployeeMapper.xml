@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yexca.mapper.EmployeeMapper">
+    <select id="pageQuery" resultType="com.yexca.entity.Employee">
+        select * from employee
+        <where>
+            <if test="username != null and username != ''">
+                and username like concat('%', #{username}, '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <update id="update">
+        update employee
+        <set>
+            <if test="username != null">username = #{username}</if>
+            <if test="password != null">password = #{password}</if>
+            <if test="nickname != null">nickname = #{nickname}</if>
+            <if test="email != null">email = #{email}</if>
+            <if test="phone != null">phone = #{phone}</if>
+            <if test="gender != null">gender = #{gender}</if>
+            <if test="countryId != null">country_id = #{countryId}</if>
+            <if test="nin != null">nin = #{nin}</if>
+            <if test="status != null">status = #{status}</if>
+            <if test="roleId != null">role_id = #{roleId}</if>
+            <if test="updateTime != null">update_time = #{updateTime}</if>
+            <if test="updateBy != null">update_by = #{updateBy}</if>
+        </set>
+        where employee_id = #{employeeId}
+    </update>
+</mapper>
