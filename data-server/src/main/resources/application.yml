@@ -4,6 +4,12 @@ server:
 spring:
   profiles:
     active: dev
+  servlet:
+    multipart:
+      # 最大单个文件大小
+      max-file-size: 10MB
+      # 整个请求最大大小(可多文件)
+      max-request-size: 10MB
   main:
     allow-circular-references: true
   datasource:
@@ -37,3 +43,8 @@ data-element:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+  alioss:
+    access-key-id: ${data.alioss.access-key-id}
+    access-key-secret: ${data.alioss.access-key-secret}
+    bucket-name: ${data.alioss.bucket-name}
+    endpoint: ${data.alioss.endpoint}

@@ -48,19 +48,25 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         // 判断密码是否存在
         if(personalUser.getPassword() == null){
             personalUser.setPassword(DigestUtils.sha1Hex(PasswordConstant.DEFAULT_PASSWORD));
+        }else {
+            personalUser.setPassword(DigestUtils.sha1Hex(personalUser.getPassword()));
         }
+
         // 判断昵称是否存在
         if(personalUser.getNickname() == null){
             personalUser.setNickname(personalUser.getUsername());
         }
+
         // 判断是否禁用
         if(personalUser.getStatus() == null){
             personalUser.setStatus(StatusConstant.ENABLE);
         }
+
         // 判断是否有创建来源
         if(personalUser.getCreateFrom() == null){
             personalUser.setCreateFrom(FromConstant.ADMIN);
         }
+
         // 判断是否有修改来源
         if(personalUser.getUpdateFrom() == null){
             personalUser.setUpdateFrom(FromConstant.ADMIN);
@@ -127,6 +133,11 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         BeanUtils.copyProperties(personalUserUpdateDTO, personalUser);
         // 设置ID
         personalUser.setUserId(id);
+
+        // 加密密码
+        if(personalUser.getPassword() != null){
+            personalUser.setPassword(DigestUtils.sha1Hex(personalUser.getPassword()));
+        }
 
         // 设置修改时间
         personalUser.setUpdateTime(LocalDateTime.now());

@@ -89,6 +89,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 判断密码是否存在
         if(employee.getPassword() == null){
             employee.setPassword(DigestUtils.sha1Hex(PasswordConstant.DEFAULT_PASSWORD));
+        }else {
+            employee.setPassword(DigestUtils.sha1Hex(employee.getPassword()));
         }
         // 判断昵称是否存在
         if(employee.getNickname() == null){
@@ -146,8 +148,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmployeeId(id);
 
         // 判断密码是否存在
-        if(employee.getPassword() == null){
-            employee.setPassword(DigestUtils.sha1Hex(PasswordConstant.DEFAULT_PASSWORD));
+        if(employee.getPassword() != null){
+            employee.setPassword(DigestUtils.sha1Hex(employee.getPassword()));
         }
         
         employee.setUpdateTime(LocalDateTime.now());

@@ -39,14 +39,14 @@ public class Employee implements Serializable {
 
     private Integer roleId;
 
+    private Long createBy;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
+    private Long updateBy;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
-
-    private Long createBy;
-
-    private Long updateBy;
 
 }
