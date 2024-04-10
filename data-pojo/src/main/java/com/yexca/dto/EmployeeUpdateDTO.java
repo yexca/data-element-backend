@@ -18,7 +18,7 @@ public class EmployeeUpdateDTO implements Serializable {
 
     private String password;
 
-    private String phone;
+    private Integer phone;
 
     private Integer roleId;
 

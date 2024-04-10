@@ -15,7 +15,7 @@ public class EnterpriseUserUpdateVO implements Serializable {
 
     private String email;
 
-    private String phone;
+    private Integer phone;
 
     private Integer countryId;
 

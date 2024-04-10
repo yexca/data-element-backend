@@ -52,6 +52,11 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
             enterpriseUser.setPassword(DigestUtils.sha1Hex(enterpriseUser.getPassword()));
         }
 
+        // 手机号
+        if(enterpriseUserAddDTO.getPhone() != null){
+            enterpriseUser.setPhone(enterpriseUserAddDTO.getPhone().toString());
+        }
+
         // 判断是否禁用
         if(enterpriseUser.getStatus() == null){
         enterpriseUser.setStatus(StatusConstant.ENABLE);
@@ -142,6 +147,11 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
         // 复制属性至返回对象
         EnterpriseUserUpdateVO enterpriseUserUpdateVO = new EnterpriseUserUpdateVO();
         BeanUtils.copyProperties(enterpriseUser, enterpriseUserUpdateVO);
+        // 转换手机号
+        if(enterpriseUser.getPhone() != null){
+            enterpriseUserUpdateVO.setPhone(Integer.parseInt(enterpriseUser.getPhone()));
+        }
+
         return enterpriseUserUpdateVO;
     }
 
@@ -161,6 +171,11 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
         // 密码加密
         if (enterpriseUser.getPassword() != null){
             enterpriseUser.setPassword(DigestUtils.sha1Hex(enterpriseUser.getPassword()));
+        }
+
+        // 手机号转换
+        if(enterpriseUserUpdateDTO.getPhone() != null){
+            enterpriseUser.setPhone(enterpriseUserUpdateDTO.getPhone().toString());
         }
 
         // 修改人

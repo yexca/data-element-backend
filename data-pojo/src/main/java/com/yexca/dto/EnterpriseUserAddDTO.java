@@ -13,7 +13,7 @@ public class EnterpriseUserAddDTO implements Serializable {
 
     private String email;
 
-    private String phone;
+    private Integer phone;
 
     private Integer countryId;
 

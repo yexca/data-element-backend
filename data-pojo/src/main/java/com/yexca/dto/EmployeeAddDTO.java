@@ -12,7 +12,7 @@ public class EmployeeAddDTO implements Serializable {
     private String nickname;
     private String nin;
     private String password;
-    private String phone;
+    private Integer phone;
     private Integer roleId;
     private String username;
 }

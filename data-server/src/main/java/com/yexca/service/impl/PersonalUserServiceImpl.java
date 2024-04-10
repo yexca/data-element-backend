@@ -52,6 +52,11 @@ public class PersonalUserServiceImpl implements PersonalUserService {
             personalUser.setPassword(DigestUtils.sha1Hex(personalUser.getPassword()));
         }
 
+        // 手机号
+        if(personalUserAddDTO.getPhone() != null){
+            personalUser.setPhone(personalUserAddDTO.getPhone().toString());
+        }
+
         // 判断昵称是否存在
         if(personalUser.getNickname() == null){
             personalUser.setNickname(personalUser.getUsername());
@@ -139,6 +144,11 @@ public class PersonalUserServiceImpl implements PersonalUserService {
             personalUser.setPassword(DigestUtils.sha1Hex(personalUser.getPassword()));
         }
 
+        // 手机号转换
+        if(personalUserUpdateDTO.getPhone() != null){
+            personalUser.setPhone(personalUserUpdateDTO.getPhone().toString());
+        }
+
         // 设置修改时间
         personalUser.setUpdateTime(LocalDateTime.now());
         // 修改人
@@ -161,6 +171,11 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         // 拷贝属性到返回对象
         PersonalUserUpdateVO personalUserUpdateVO = new PersonalUserUpdateVO();
         BeanUtils.copyProperties(personalUser, personalUserUpdateVO);
+
+        // 转换手机号
+        if(personalUser.getPhone() != null){
+            personalUserUpdateVO.setPhone(Integer.parseInt(personalUser.getPhone()));
+        }
 
         return personalUserUpdateVO;
     }

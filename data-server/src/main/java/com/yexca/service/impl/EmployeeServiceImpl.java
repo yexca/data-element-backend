@@ -92,6 +92,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         }else {
             employee.setPassword(DigestUtils.sha1Hex(employee.getPassword()));
         }
+
+        // 手机号
+        if(employeeAddDTO.getPhone() != null){
+            employee.setPhone(employeeAddDTO.getPhone().toString());
+        }
         // 判断昵称是否存在
         if(employee.getNickname() == null){
             employee.setNickname(employee.getUsername());
@@ -151,6 +156,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(employee.getPassword() != null){
             employee.setPassword(DigestUtils.sha1Hex(employee.getPassword()));
         }
+
+        // 手机号转换
+        if(employeeUpdateDTO.getPhone() != null){
+            employee.setPhone(employeeUpdateDTO.getPhone().toString());
+        }
         
         employee.setUpdateTime(LocalDateTime.now());
         employee.setUpdateBy(BaseContext.getCurrentEmpId());
@@ -166,6 +176,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeUpdateVO employeeUpdateVO = new EmployeeUpdateVO();
         // 复制属性
         BeanUtils.copyProperties(e, employeeUpdateVO);
+
+        // 转换手机号
+        if(e.getPhone() != null){
+            employeeUpdateVO.setPhone(Integer.parseInt(e.getPhone()));
+        }
 
         return employeeUpdateVO;
     }
