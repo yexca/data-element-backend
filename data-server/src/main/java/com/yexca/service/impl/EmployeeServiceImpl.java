@@ -179,7 +179,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // 转换手机号
         if(e.getPhone() != null){
-            employeeUpdateVO.setPhone(Integer.parseInt(e.getPhone()));
+            employeeUpdateVO.setPhone(Long.parseLong(e.getPhone()));
         }
 
         return employeeUpdateVO;
@@ -204,6 +204,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 处理国家信息
         String countryName = countryMapper.getNameByCountryId(record.getCountryId());
         employeePageQueryVO.setCountryName(countryName);
+
+        // 处理手机号
+        if (employeePageQueryVO.getPhone() != null){
+            Integer phone = countryMapper.getPhoneById(record.getCountryId());
+            employeePageQueryVO.setPhone("+" + phone + " " + employeePageQueryVO.getPhone());
+        }
 
         // 处理性别信息
         Integer gender = record.getGender();

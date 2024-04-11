@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yexca.mapper.PersonalDataMapper">
+    <update id="update">
+        update personal_data
+        <set>
+            <if test="userId != null">user_id = #{userId}, </if>
+            <if test="name != null">name = #{name}, </if>
+            <if test="description != null">description = #{description}, </if>
+            <if test="categoryId != null">category_id = #{categoryId}, </if>
+            <if test="fileLink != null">file_link = #{fileLink}, </if>
+            <if test="status != null">status = #{status}, </if>
+            <if test="updateBy != null">update_by = #{updateBy}, </if>
+            <if test="updateFrom != null">update_from = #{updateFrom}, </if>
+            <if test="updateTime != null">update_time = #{updateTime}, </if>
+        </set>
+        where data_id = #{dataId}
+    </update>
+
+    <select id="pageQuery" resultType="com.yexca.entity.PersonalData">
+        select * from personal_data
+        <where>
+            <if test="dataId != null">and data_id = #{dataId}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="name != null">and name like concat('%', #{name}, '%')</if>
+            <if test="description != null">and description like concat('%', #{description}, '%')</if>
+            <if test="categoryId != null">and category_id = #{categoryId}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
+        order by update_time desc
+    </select>
+</mapper>

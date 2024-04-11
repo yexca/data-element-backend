@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 @Data
 public class EmployeeAddDTO implements Serializable {
-    private Integer countryId;
+    private Long countryId;
     private String email;
     private Integer gender;
     private String nickname;
     private String nin;
     private String password;
-    private Integer phone;
+    private Long phone;
     private Integer roleId;
     private String username;
 }

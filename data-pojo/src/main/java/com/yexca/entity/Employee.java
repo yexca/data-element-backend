@@ -31,7 +31,7 @@ public class Employee implements Serializable {
 
     private Integer gender;
 
-    private Integer countryId;
+    private Long countryId;
 
     private String nin;
 

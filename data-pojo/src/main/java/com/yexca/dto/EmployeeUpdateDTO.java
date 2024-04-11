@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class EmployeeUpdateDTO implements Serializable {
-    private Integer countryId;
+    private Long countryId;
 
     private String email;
 
@@ -18,9 +18,11 @@ public class EmployeeUpdateDTO implements Serializable {
 
     private String password;
 
-    private Integer phone;
+    private Long phone;
 
     private Integer roleId;
+
+    private Integer status;
 
     private String username;
 }

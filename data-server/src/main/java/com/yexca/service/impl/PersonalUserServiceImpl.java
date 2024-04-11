@@ -174,7 +174,7 @@ public class PersonalUserServiceImpl implements PersonalUserService {
 
         // 转换手机号
         if(personalUser.getPhone() != null){
-            personalUserUpdateVO.setPhone(Integer.parseInt(personalUser.getPhone()));
+            personalUserUpdateVO.setPhone(Long.parseLong(personalUser.getPhone()));
         }
 
         return personalUserUpdateVO;
@@ -194,6 +194,12 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         // 处理国家信息
         String countryName = countryMapper.getNameByCountryId(record.getCountryId());
         personalUserPageQueryVO.setCountryName(countryName);
+
+        // 处理手机号
+        if (personalUserPageQueryVO.getPhone() != null){
+            Integer phone = countryMapper.getPhoneById(record.getCountryId());
+            personalUserPageQueryVO.setPhone("+" + phone + " " + personalUserPageQueryVO.getPhone());
+        }
 
         // 处理性别信息
         Integer gender = record.getGender();

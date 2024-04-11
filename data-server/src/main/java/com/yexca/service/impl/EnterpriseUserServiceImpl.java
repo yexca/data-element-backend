@@ -118,7 +118,7 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
             // 复制属性
             BeanUtils.copyProperties(record, enterpriseUserPageQueryVO);
             // 处理国家信息
-            Integer countryId = record.getCountryId();
+            Long countryId = record.getCountryId();
             String countryName = countryMapper.getNameByCountryId(countryId);
             enterpriseUserPageQueryVO.setCountryName(countryName);
             // 处理状态信息

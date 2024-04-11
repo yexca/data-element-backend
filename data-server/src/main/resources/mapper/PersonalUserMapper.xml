@@ -26,8 +26,33 @@
     <select id="pageQuery" resultType="com.yexca.entity.PersonalUser">
         select * from personal_user
         <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
             <if test="username != null and username != ''">
                 and username like concat('%', #{username}, '%')
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname like concat('%', #{nickname}, '%')
+            </if>
+            <if test="email != null">
+                and email like concat('%', #{email}, '%')
+            </if>
+            <if test="phone != null">
+#                 and phone like concat('%', #{phone}, '%')
+                 and phone = #{phone}
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="countryId != null">
+                and country_id = #{countryId}
+            </if>
+            <if test="nin != null">
+                and nin like concat('%', #{nin}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
             </if>
         </where>
         order by create_time desc

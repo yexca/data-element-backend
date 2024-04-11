@@ -7,26 +7,22 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class EnterpriseUser implements Serializable {
+public class PersonalData implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private Long dataId;
 
     private Long userId;
 
-    private String username;
+    private String name;
 
-    private String password;
+    private String description;
 
-    private String enterpriseName;
+    private Long categoryId;
 
-    private String email;
-
-    private String phone;
-
-    private Long countryId;
+    private String fileLink;
 
     private Integer status;
-
-    private String evidence;
 
     private Long createBy;
 
@@ -41,4 +37,5 @@ public class EnterpriseUser implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+
 }

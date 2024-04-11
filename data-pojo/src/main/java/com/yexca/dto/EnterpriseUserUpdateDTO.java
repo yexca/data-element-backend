@@ -15,7 +15,7 @@ public class EnterpriseUserUpdateDTO implements Serializable {
 
     private Integer phone;
 
-    private Integer countryId;
+    private Long countryId;
 
     private Integer status;
 

@@ -7,31 +7,28 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class PersonalUserUpdateVO implements Serializable {
+public class PersonalDataPageQueryVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private Long dataId;
+
+    private String userName;
 
     private Long userId;
 
-    private String username;
+    private String name;
 
-    private String nickname;
+    private String description;
 
-    private String email;
+    private String categoryName;
 
-    private Long phone;
+    private String fileLink;
 
-    private Integer gender;
-
-    private Long countryId;
-
-    private String nin;
-
-    private Integer status;
+    private String status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
-
 }

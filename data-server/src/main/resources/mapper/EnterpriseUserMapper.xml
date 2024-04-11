@@ -17,14 +17,35 @@
             <if test="updateFrom != null">update_from = #{updateFrom}, </if>
             <if test="updateTime != null">update_time = #{updateTime}, </if>
         </set>
-        where user_id = #{userID}
+        where user_id = #{userId}
     </update>
 
     <select id="pageQuery" resultType="com.yexca.entity.EnterpriseUser">
         select * from enterprise_user
         <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
             <if test="username != null and username != ''">
                 and username like concat('%', #{username}, '%')
+            </if>
+            <if test="enterpriseName != null and enterpriseName != ''">
+                and enterprise_name like concat('%', #{enterpriseName}, '%')
+            </if>
+            <if test="email != null">
+                and email like concat('%', #{email}, '%')
+            </if>
+            <if test="phone != null">
+                and phone = #{phone}
+            </if>
+            <if test="countryId != null">
+                and country_id = #{countryId}
+            </if>
+            <if test="roleId != null">
+                and role_id = #{roleId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
             </if>
         </where>
         order by create_time desc

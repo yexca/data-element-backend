@@ -17,7 +17,7 @@ public class EnterpriseUserUpdateVO implements Serializable {
 
     private Integer phone;
 
-    private Integer countryId;
+    private Long countryId;
 
     private Integer status;
 

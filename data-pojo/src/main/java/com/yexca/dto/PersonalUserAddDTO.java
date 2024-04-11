@@ -13,11 +13,11 @@ public class PersonalUserAddDTO implements Serializable {
 
     private String email;
 
-    private Integer phone;
+    private Long phone;
 
     private Integer gender;
 
-    private Integer countryId;
+    private Long countryId;
 
     private String nin;
 
