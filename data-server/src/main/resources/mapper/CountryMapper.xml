@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yexca.mapper.CountryMapper">
+    <update id="update">
+        update country
+        <set>
+            <if test="phone != null">phone = #{phone}, </if>
+            <if test="name != null">name = #{name}, </if>
+            <if test="status != null">status = #{status}, </if>
+        </set>
+        where country_id = #{countryId}
+    </update>
+
+    <select id="pageQuery" resultType="com.yexca.entity.Country">
+        select * from country
+        <where>
+            <if test="countryId != null">
+                and country_id = #{countryId}
+            </if>
+            <if test="phone != null">
+                and phone = #{phone}
+            </if>
+            <if test="name != null">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+</mapper>
