@@ -107,6 +107,13 @@ public class PersonalDataServiceImpl implements PersonalDataService {
             personalDataPageQueryVO.setUserName(personalUserMapper.getUsernameById(record.getUserId()));
             // 分类
             personalDataPageQueryVO.setCategoryName(categoryMapper.getNameById(record.getCategoryId()));
+            // 处理状态信息
+            Integer status = record.getStatus();
+            if(status.equals(StatusConstant.ENABLE)){
+                personalDataPageQueryVO.setStatus("启用");
+            }else{
+                personalDataPageQueryVO.setStatus("禁用");
+            }
 
             resultRecords.add(personalDataPageQueryVO);
         }

@@ -66,6 +66,7 @@ public class EmployeeController {
                 .employeeId(employee.getEmployeeId())
                 .username(employee.getUsername())
                 .nickname(employee.getNickname())
+                .role(employee.getRoleId())
                 .token(token)
                 .build();
 

@@ -23,4 +23,7 @@ public interface EnterpriseUserMapper {
     EnterpriseUser getById(Long id);
 
     void update(EnterpriseUser enterpriseUser);
+
+    @Select("select username from enterprise_user where user_id = #{userId}")
+    String getUsernameById(Long userId);
 }
