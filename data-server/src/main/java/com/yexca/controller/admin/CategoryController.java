@@ -6,6 +6,7 @@ import com.yexca.dto.CategoryUpdateDTO;
 import com.yexca.result.PageResult;
 import com.yexca.result.Result;
 import com.yexca.service.CategoryService;
+import com.yexca.vo.CategoryListVO;
 import com.yexca.vo.CategoryUpdateVO;
 import com.yexca.vo.CountryListVO;
 import io.swagger.annotations.Api;
@@ -22,6 +23,17 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    /**
+     * 获取全部分类
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<CategoryListVO>> list(){
+        log.info("获取全部分类");
+        List<CategoryListVO> categoryListVOList = categoryService.list();
+        return Result.success(categoryListVOList);
+    }
 
     /**
      * 增加分类

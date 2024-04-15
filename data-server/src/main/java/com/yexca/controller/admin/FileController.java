@@ -6,6 +6,7 @@ import com.yexca.utils.AliOssUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,12 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/admin/common")
+@RequestMapping("/admin/file")
 @Slf4j
-@Api(tags = "通用接口")
-public class CommonController {
+@Api(tags = "文件接口")
+public class FileController {
     @Autowired
     private AliOssUtil aliOssUtil;
 
@@ -27,7 +30,7 @@ public class CommonController {
      * @param file
      * @return
      */
-    @PostMapping("/upload")
+    @PostMapping
     public Result<String> upload(MultipartFile file){
         log.info("文件上传：{}", file);
 
@@ -47,5 +50,43 @@ public class CommonController {
         }
 
         return Result.error(MessageConstant.UPLOAD_FAILED);
+    }
+
+    /**
+     * 文件删除
+     * @param file
+     * @return
+     */
+    @DeleteMapping
+    public Result delete(String file){
+        log.info("文件删除：{}", file);
+        String fullFilename = extractFullFilenameIfUUID(file);
+        if (fullFilename != null) {
+            aliOssUtil.delete(fullFilename);
+        } else {
+            log.error("删除失败，文件名不是UUID格式");
+            return Result.error("文件名不是UUID格式");
+        }
+//
+        return Result.success();
+    }
+
+    public String extractFullFilenameIfUUID(String url) {
+        // Extract filename from URL
+        String[] parts = url.split("/");
+        String filename = parts[parts.length - 1];
+
+        // Check if the filename without the extension is a UUID
+        String baseName = filename.contains(".") ? filename.substring(0, filename.lastIndexOf('.')) : filename;
+
+        // Regex to match a UUID
+        Pattern pattern = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(baseName);
+
+        if (matcher.matches()) {
+            return filename;  // Return the full filename if baseName is a UUID
+        }
+
+        return null;  // Return null if baseName is not a UUID
     }
 }

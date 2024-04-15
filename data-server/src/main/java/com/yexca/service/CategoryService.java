@@ -4,7 +4,10 @@ import com.yexca.dto.CategoryAddDTO;
 import com.yexca.dto.CategoryPageQueryDTO;
 import com.yexca.dto.CategoryUpdateDTO;
 import com.yexca.result.PageResult;
+import com.yexca.vo.CategoryListVO;
 import com.yexca.vo.CategoryUpdateVO;
+
+import java.util.List;
 
 public interface CategoryService {
     /**
@@ -39,4 +42,10 @@ public interface CategoryService {
      * @return
      */
     CategoryUpdateVO getById(Long id);
+
+    /**
+     * 获取全部分类
+     * @return
+     */
+    List<CategoryListVO> list();
 }

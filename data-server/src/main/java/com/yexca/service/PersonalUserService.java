@@ -1,9 +1,12 @@
 package com.yexca.service;
 
+import com.yexca.dto.PersonalLoginDTO;
 import com.yexca.dto.PersonalUserAddDTO;
 import com.yexca.dto.PersonalUserPageQueryDTO;
 import com.yexca.dto.PersonalUserUpdateDTO;
+import com.yexca.entity.PersonalUser;
 import com.yexca.result.PageResult;
+import com.yexca.vo.PersonalUserPageQueryVO;
 import com.yexca.vo.PersonalUserUpdateVO;
 
 public interface PersonalUserService {
@@ -39,4 +42,18 @@ public interface PersonalUserService {
      * @return
      */
     PersonalUserUpdateVO getById(Long id);
+
+    /**
+     * 用户端获取信息
+     * @param id
+     * @return
+     */
+    PersonalUserPageQueryVO getInfo(Long id);
+
+    /**
+     * 用户登录
+     * @param personalLoginDTO
+     * @return
+     */
+    PersonalUser login(PersonalLoginDTO personalLoginDTO);
 }

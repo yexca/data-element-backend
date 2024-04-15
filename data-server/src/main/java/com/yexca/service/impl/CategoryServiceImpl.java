@@ -12,6 +12,7 @@ import com.yexca.entity.Country;
 import com.yexca.mapper.CategoryMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.CategoryService;
+import com.yexca.vo.CategoryListVO;
 import com.yexca.vo.CategoryPageQueryVO;
 import com.yexca.vo.CategoryUpdateVO;
 import com.yexca.vo.CountryPageQueryVO;
@@ -82,6 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
         for (Category record : records) {
             // 创建返回对象
             CategoryPageQueryVO categoryPageQueryVO = new CategoryPageQueryVO();
+            BeanUtils.copyProperties(record, categoryPageQueryVO);
             // 处理数据
             Integer status = record.getStatus();
             if(status.equals(StatusConstant.ENABLE)){
@@ -129,5 +131,25 @@ public class CategoryServiceImpl implements CategoryService {
         BeanUtils.copyProperties(category, categoryUpdateVO);
 
         return categoryUpdateVO;
+    }
+
+    /**
+     * 获取全部分类
+     * @return
+     */
+    @Override
+    public List<CategoryListVO> list() {
+        List<Category> categoryList = categoryMapper.list();
+
+        // 返回对象
+        List<CategoryListVO> categoryListVOList = new ArrayList<>();
+        for (Category category : categoryList) {
+            CategoryListVO categoryListVO = new CategoryListVO();
+            BeanUtils.copyProperties(category, categoryListVO);
+            categoryListVOList.add(categoryListVO);
+        }
+
+
+        return categoryListVOList;
     }
 }

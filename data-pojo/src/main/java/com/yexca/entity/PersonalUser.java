@@ -27,6 +27,8 @@ public class PersonalUser implements Serializable {
 
     private String nin;
 
+    private Integer roleId;
+
     private Integer status;
 
     private String wxOpenid;

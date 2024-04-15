@@ -1,5 +1,6 @@
 package com.yexca.controller.admin;
 
+import com.yexca.constant.FromConstant;
 import com.yexca.dto.EnterpriseDataAddDTO;
 import com.yexca.dto.EnterpriseDataPageQueryDTO;
 import com.yexca.dto.EnterpriseDataUpdateDTO;
@@ -12,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("adminEnterpriseDataController")
 @RequestMapping("/admin/data/enterprise")
 @Slf4j
 @Api(tags = "企业数据相关接口")
@@ -28,7 +29,7 @@ public class EnterpriseDataController {
     @PostMapping
     public Result add(@RequestBody EnterpriseDataAddDTO enterpriseDataAddDTO){
         log.info("新增企业用户数据：{}", enterpriseDataAddDTO);
-        enterpriseDataService.add(enterpriseDataAddDTO);
+        enterpriseDataService.add(enterpriseDataAddDTO, FromConstant.ADMIN);
         return Result.success();
     }
 
@@ -65,7 +66,7 @@ public class EnterpriseDataController {
     @PutMapping("/{id}")
     public Result update(@PathVariable Long id, @RequestBody EnterpriseDataUpdateDTO enterpriseDataUpdateDTO){
         log.info("修改企业数据ID：{}，信息：{}", id, enterpriseDataUpdateDTO);
-        enterpriseDataService.update(id, enterpriseDataUpdateDTO);
+        enterpriseDataService.update(id, enterpriseDataUpdateDTO, FromConstant.ADMIN);
         return Result.success();
     }
 

@@ -11,7 +11,7 @@ public interface EnterpriseDataService {
      * 新增企业用户数据
      * @param enterpriseDataAddDTO
      */
-    void add(EnterpriseDataAddDTO enterpriseDataAddDTO);
+    void add(EnterpriseDataAddDTO enterpriseDataAddDTO, String from);
 
     /**
      * 通过ID删除企业数据
@@ -31,7 +31,7 @@ public interface EnterpriseDataService {
      * @param id
      * @param enterpriseDataUpdateDTO
      */
-    void update(Long id, EnterpriseDataUpdateDTO enterpriseDataUpdateDTO);
+    void update(Long id, EnterpriseDataUpdateDTO enterpriseDataUpdateDTO, String from);
 
     /**
      * 通过ID获取信息

@@ -121,9 +121,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         // 开始分页查询
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+        employeePageQueryDTO.setCurrentRoleId(BaseContext.getCurrentRoleId().intValue());
+
+        System.out.println(employeePageQueryDTO);
+
         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
         long total = page.getTotal();
         List<Employee> records = page.getResult();
+
+        System.out.println(page);
 
         // 处理数据，新建返回体对象列表
         List<EmployeePageQueryVO> resultRecords = new ArrayList<>();

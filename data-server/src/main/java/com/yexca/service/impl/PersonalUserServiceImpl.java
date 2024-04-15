@@ -2,16 +2,17 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yexca.constant.FromConstant;
-import com.yexca.constant.GenderConstant;
-import com.yexca.constant.PasswordConstant;
-import com.yexca.constant.StatusConstant;
+import com.yexca.constant.*;
 import com.yexca.context.BaseContext;
+import com.yexca.dto.PersonalLoginDTO;
 import com.yexca.dto.PersonalUserAddDTO;
 import com.yexca.dto.PersonalUserPageQueryDTO;
 import com.yexca.dto.PersonalUserUpdateDTO;
 import com.yexca.entity.Employee;
 import com.yexca.entity.PersonalUser;
+import com.yexca.exception.AccountLockedException;
+import com.yexca.exception.AccountNotFoundException;
+import com.yexca.exception.PasswordErrorException;
 import com.yexca.mapper.CountryMapper;
 import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
@@ -178,6 +179,52 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         }
 
         return personalUserUpdateVO;
+    }
+
+    /**
+     * 用户端获取信息
+     * @param id
+     * @return
+     */
+    @Override
+    public PersonalUserPageQueryVO getInfo(Long id) {
+        PersonalUser personalUser = personalUserMapper.getById(id);
+
+        // 拷贝属性到返回对象
+
+        return handleEmployeeToVO(personalUser);
+    }
+
+    /**
+     * 用户登录
+     * @param personalLoginDTO
+     * @return
+     */
+    @Override
+    public PersonalUser login(PersonalLoginDTO personalLoginDTO) {
+        String username = personalLoginDTO.getUsername();
+        String password = personalLoginDTO.getPassword();
+
+        // 根据用户名查询数据库的数据
+        PersonalUser personalUser = personalUserMapper.getByUsername(username);
+
+        // 用户不存在
+        if (personalUser == null){
+            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+
+        // 密码比对
+        if (!DigestUtils.sha1Hex(password).equals(personalUser.getPassword())) {
+            // 密码错误
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        // 账号未启用
+        if (personalUser.getStatus() == StatusConstant.DISABLE) {
+            throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
+        }
+
+        return personalUser;
     }
 
     /**

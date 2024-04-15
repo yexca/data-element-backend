@@ -8,6 +8,9 @@
             <if test="username != null and username != ''">
                 and username like concat('%', #{username}, '%')
             </if>
+            <if test="currentRoleId != null">
+                and role_id > #{currentRoleId}
+            </if>
         </where>
         order by create_time desc
     </select>

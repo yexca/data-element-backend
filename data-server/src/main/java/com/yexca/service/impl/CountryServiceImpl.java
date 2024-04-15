@@ -19,6 +19,7 @@ import com.yexca.vo.EmployeePageQueryVO;
 import org.apache.poi.ss.formula.functions.Count;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -93,6 +94,7 @@ public class CountryServiceImpl implements CountryService {
         for (Country record : records) {
             // 创建返回对象
             CountryPageQueryVO countryPageQueryVO = new CountryPageQueryVO();
+            BeanUtils.copyProperties(record, countryPageQueryVO);
             // 处理数据
             Integer status = record.getStatus();
             if(status.equals(StatusConstant.ENABLE)){

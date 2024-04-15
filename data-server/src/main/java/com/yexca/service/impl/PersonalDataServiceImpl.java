@@ -14,6 +14,7 @@ import com.yexca.mapper.PersonalDataMapper;
 import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.PersonalDataService;
+import com.yexca.vo.PersonalDataCommonVO;
 import com.yexca.vo.PersonalDataPageQueryVO;
 import com.yexca.vo.PersonalDataUpdateVO;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +39,7 @@ public class PersonalDataServiceImpl implements PersonalDataService {
      * @param personalDataAddDTO
      */
     @Override
-    public void add(PersonalDataAddDTO personalDataAddDTO) {
+    public void add(PersonalDataAddDTO personalDataAddDTO, String from) {
         // 定义实体对象
         PersonalData personalData = new PersonalData();
 
@@ -51,21 +52,33 @@ public class PersonalDataServiceImpl implements PersonalDataService {
         }
 
         // 判断是否有创建来源
-        if(personalData.getCreateFrom() == null){
-            personalData.setCreateFrom(FromConstant.ADMIN);
-        }
+//        if(personalData.getCreateFrom() == null){
+//            personalData.setCreateFrom(FromConstant.ADMIN);
+//        }
+        personalData.setCreateFrom(from);
 
         // 判断是否有修改来源
-        if(personalData.getUpdateFrom() == null){
-            personalData.setUpdateFrom(FromConstant.ADMIN);
-        }
+//        if(personalData.getUpdateFrom() == null){
+//            personalData.setUpdateFrom(FromConstant.ADMIN);
+//        }
+        personalData.setUpdateFrom(from);
 
         // 创建时间与修改时间
         personalData.setCreateTime(LocalDateTime.now());
         personalData.setUpdateTime(LocalDateTime.now());
         // 创建人与修改人
-        personalData.setCreateBy(BaseContext.getCurrentEmpId());
-        personalData.setUpdateBy(BaseContext.getCurrentEmpId());
+//        personalData.setCreateBy(BaseContext.getCurrentEmpId());
+        if(BaseContext.getCurrentEmpId() != null){
+            personalData.setCreateBy(BaseContext.getCurrentEmpId());
+        }else {
+            personalData.setCreateBy(BaseContext.getCurrentUserId());
+        }
+//        personalData.setUpdateBy(BaseContext.getCurrentEmpId());
+        if(BaseContext.getCurrentEmpId() != null){
+            personalData.setUpdateBy(BaseContext.getCurrentEmpId());
+        }else {
+            personalData.setUpdateBy(BaseContext.getCurrentUserId());
+        }
 
         personalDataMapper.insert(personalData);
     }
@@ -104,7 +117,7 @@ public class PersonalDataServiceImpl implements PersonalDataService {
             PersonalDataPageQueryVO personalDataPageQueryVO = new PersonalDataPageQueryVO();
             BeanUtils.copyProperties(record, personalDataPageQueryVO);
             // 用户名
-            personalDataPageQueryVO.setUserName(personalUserMapper.getUsernameById(record.getUserId()));
+            personalDataPageQueryVO.setUsername(personalUserMapper.getUsernameById(record.getUserId()));
             // 分类
             personalDataPageQueryVO.setCategoryName(categoryMapper.getNameById(record.getCategoryId()));
             // 处理状态信息
@@ -127,7 +140,7 @@ public class PersonalDataServiceImpl implements PersonalDataService {
      * @param personalDataUpdateDTO
      */
     @Override
-    public void update(Long id, PersonalDataUpdateDTO personalDataUpdateDTO) {
+    public void update(Long id, PersonalDataUpdateDTO personalDataUpdateDTO, String from) {
         // 实体对象用于Mapper
         PersonalData personalData = new PersonalData();
         BeanUtils.copyProperties(personalDataUpdateDTO, personalData);
@@ -136,9 +149,14 @@ public class PersonalDataServiceImpl implements PersonalDataService {
         // 设置修改时间
         personalData.setUpdateTime(LocalDateTime.now());
         // 修改人
-        personalData.setUpdateBy(BaseContext.getCurrentEmpId());
+        if(BaseContext.getCurrentEmpId() != null){
+            personalData.setUpdateBy(BaseContext.getCurrentEmpId());
+        }else {
+            personalData.setUpdateBy(BaseContext.getCurrentUserId());
+        }
+
         // 修改端
-        personalData.setUpdateFrom(FromConstant.ADMIN);
+        personalData.setUpdateFrom(from);
 
         personalDataMapper.update(personalData);
     }
@@ -155,5 +173,29 @@ public class PersonalDataServiceImpl implements PersonalDataService {
         PersonalDataUpdateVO personalDataUpdateVO = new PersonalDataUpdateVO();
         BeanUtils.copyProperties(personalData, personalDataUpdateVO);
         return personalDataUpdateVO;
+    }
+
+    /**
+     * 根据Id获取个人数据Common信息
+     * @param dataId
+     * @return
+     */
+    @Override
+    public PersonalDataCommonVO getCommonById(Long dataId) {
+        PersonalData personalData = personalDataMapper.getById(dataId);
+        PersonalDataCommonVO personalDataCommonVO = new PersonalDataCommonVO();
+        BeanUtils.copyProperties(personalData, personalDataCommonVO);
+        // 用户
+        personalDataCommonVO.setUsername(personalUserMapper.getUsernameById(personalData.getUserId()));
+        // 分类
+        personalDataCommonVO.setCategoryName(categoryMapper.getNameById(personalData.getCategoryId()));
+        // 状态
+        Integer status = personalData.getStatus();
+        if(status.equals(StatusConstant.ENABLE)){
+            personalDataCommonVO.setStatus("启用");
+        }else{
+            personalDataCommonVO.setStatus("禁用");
+        }
+        return personalDataCommonVO;
     }
 }

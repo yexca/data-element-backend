@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface CategoryMapper {
     @Select("select name from category where category_id = #{id}")
@@ -26,4 +28,7 @@ public interface CategoryMapper {
 
     @Select("select * from category where category_id = #{id}")
     Category getById(Long id);
+
+    @Select("select * from category")
+    List<Category> list();
 }

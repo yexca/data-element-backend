@@ -2,21 +2,24 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yexca.constant.FromConstant;
-import com.yexca.constant.GenderConstant;
-import com.yexca.constant.PasswordConstant;
-import com.yexca.constant.StatusConstant;
+import com.yexca.constant.*;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.EnterpriseUserAddDTO;
+import com.yexca.dto.EnterpriseUserLoginDTO;
 import com.yexca.dto.EnterpriseUserPageQueryDTO;
 import com.yexca.dto.EnterpriseUserUpdateDTO;
 import com.yexca.entity.Employee;
 import com.yexca.entity.EnterpriseUser;
+import com.yexca.entity.PersonalUser;
+import com.yexca.exception.AccountLockedException;
+import com.yexca.exception.AccountNotFoundException;
+import com.yexca.exception.PasswordErrorException;
 import com.yexca.mapper.CountryMapper;
 import com.yexca.mapper.EnterpriseUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.EnterpriseUserService;
 import com.yexca.vo.EmployeePageQueryVO;
+import com.yexca.vo.EnterpriseDataPageQueryVO;
 import com.yexca.vo.EnterpriseUserPageQueryVO;
 import com.yexca.vo.EnterpriseUserUpdateVO;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -190,6 +193,56 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
         }
 
         enterpriseUserMapper.update(enterpriseUser);
+    }
+
+    @Override
+    public EnterpriseUser login(EnterpriseUserLoginDTO enterpriseUserLoginDTO) {
+        String username = enterpriseUserLoginDTO.getUsername();
+        String password = enterpriseUserLoginDTO.getPassword();
+
+        // 根据用户名查询数据库的数据
+        EnterpriseUser enterpriseUser = enterpriseUserMapper.getByUsername(username);
+
+        // 用户不存在
+        if (enterpriseUser == null){
+            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+
+        // 密码比对
+        if (!DigestUtils.sha1Hex(password).equals(enterpriseUser.getPassword())) {
+            // 密码错误
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        // 账号未启用
+        if (enterpriseUser.getStatus() == StatusConstant.DISABLE) {
+            throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
+        }
+
+        return enterpriseUser;
+    }
+
+    @Override
+    public EnterpriseUserPageQueryVO getInfo(Long currentUserId) {
+        EnterpriseUser enterpriseUser = enterpriseUserMapper.getById(currentUserId);
+
+        // 处理信息，返回对象
+        EnterpriseUserPageQueryVO enterpriseUserPageQueryVO = new EnterpriseUserPageQueryVO();
+        // 复制属性
+        BeanUtils.copyProperties(enterpriseUser, enterpriseUserPageQueryVO);
+        // 处理国家信息
+        Long countryId = enterpriseUser.getCountryId();
+        String countryName = countryMapper.getNameByCountryId(countryId);
+        enterpriseUserPageQueryVO.setCountryName(countryName);
+        // 处理状态信息
+        Integer status = enterpriseUser.getStatus();
+        if(status.equals(StatusConstant.ENABLE)){
+            enterpriseUserPageQueryVO.setStatus("启用");
+        }else{
+            enterpriseUserPageQueryVO.setStatus("禁用");
+        }
+
+        return enterpriseUserPageQueryVO;
     }
 
 }

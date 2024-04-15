@@ -30,6 +30,8 @@ public class EmployeePageQueryDTO implements Serializable {
 
     private Integer roleId;
 
+    private Integer currentRoleId;
+
     // 页码
     private int page;
 

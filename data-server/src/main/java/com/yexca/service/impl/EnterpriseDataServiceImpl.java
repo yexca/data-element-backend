@@ -39,7 +39,7 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
      * @param enterpriseDataAddDTO
      */
     @Override
-    public void add(EnterpriseDataAddDTO enterpriseDataAddDTO) {
+    public void add(EnterpriseDataAddDTO enterpriseDataAddDTO, String from) {
         // 新建实体对象
         EnterpriseData enterpriseData = new EnterpriseData();
         BeanUtils.copyProperties(enterpriseDataAddDTO, enterpriseData);
@@ -50,22 +50,33 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
         }
 
         // 判断是否有创建来源
-        if(enterpriseData.getCreateFrom() == null){
-            enterpriseData.setCreateFrom(FromConstant.ADMIN);
-        }
+//        if(enterpriseData.getCreateFrom() == null){
+//            enterpriseData.setCreateFrom(FromConstant.ADMIN);
+//        }
+        enterpriseData.setUpdateFrom(from);
 
         // 判断是否有修改来源
-        if(enterpriseData.getUpdateFrom() == null){
-            enterpriseData.setUpdateFrom(FromConstant.ADMIN);
-        }
+//        if(enterpriseData.getUpdateFrom() == null){
+//            enterpriseData.setUpdateFrom(FromConstant.ADMIN);
+//        }
+        enterpriseData.setUpdateFrom(from);
 
         // 创建时间与修改时间
         enterpriseData.setCreateTime(LocalDateTime.now());
         enterpriseData.setUpdateTime(LocalDateTime.now());
         // 创建人与修改人
-        enterpriseData.setCreateBy(BaseContext.getCurrentEmpId());
-        enterpriseData.setUpdateBy(BaseContext.getCurrentEmpId());
-
+//        enterpriseData.setCreateBy(BaseContext.getCurrentEmpId());
+        if(BaseContext.getCurrentEmpId() != null){
+            enterpriseData.setCreateBy(BaseContext.getCurrentEmpId());
+        }else {
+            enterpriseData.setCreateBy(BaseContext.getCurrentUserId());
+        }
+//        enterpriseData.setUpdateBy(BaseContext.getCurrentEmpId());
+        if(BaseContext.getCurrentEmpId() != null){
+            enterpriseData.setUpdateBy(BaseContext.getCurrentEmpId());
+        }else {
+            enterpriseData.setUpdateBy(BaseContext.getCurrentUserId());
+        }
         enterpriseDataMapper.insert(enterpriseData);
     }
 
@@ -127,7 +138,7 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
      * @param enterpriseDataUpdateDTO
      */
     @Override
-    public void update(Long id, EnterpriseDataUpdateDTO enterpriseDataUpdateDTO) {
+    public void update(Long id, EnterpriseDataUpdateDTO enterpriseDataUpdateDTO, String from) {
         // 复制属性至实体对象
         EnterpriseData enterpriseData = new EnterpriseData();
         BeanUtils.copyProperties(enterpriseDataUpdateDTO, enterpriseData);
@@ -138,9 +149,14 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
         // 设置修改时间
         enterpriseData.setUpdateTime(LocalDateTime.now());
         // 修改人
-        enterpriseData.setUpdateBy(BaseContext.getCurrentEmpId());
+//        enterpriseData.setUpdateBy(BaseContext.getCurrentEmpId());
+        if(BaseContext.getCurrentEmpId() != null){
+            enterpriseData.setUpdateBy(BaseContext.getCurrentEmpId());
+        }else {
+            enterpriseData.setUpdateBy(BaseContext.getCurrentUserId());
+        }
         // 修改端
-        enterpriseData.setUpdateFrom(FromConstant.ADMIN);
+        enterpriseData.setUpdateFrom(from);
 
         enterpriseDataMapper.update(enterpriseData);
     }

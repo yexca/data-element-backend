@@ -29,9 +29,17 @@
     <jaxb-api>2.3.1</jaxb-api>
     <poi>3.16</poi>
     <junit>4.12</junit>
+    <elasticsearch.version>7.12.1</elasticsearch.version>
   </properties>
   <dependencyManagement>
     <dependencies>
+<!--      elastic search-->
+      <dependency>
+        <groupId>org.elasticsearch.client</groupId>
+        <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.mybatis.spring.boot</groupId>
         <artifactId>mybatis-spring-boot-starter</artifactId>

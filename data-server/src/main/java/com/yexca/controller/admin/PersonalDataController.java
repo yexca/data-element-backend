@@ -1,5 +1,6 @@
 package com.yexca.controller.admin;
 
+import com.yexca.constant.FromConstant;
 import com.yexca.dto.PersonalDataAddDTO;
 import com.yexca.dto.PersonalDataPageQueryDTO;
 import com.yexca.dto.PersonalDataUpdateDTO;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("adminPersonalDataController")
 @RequestMapping("/admin/data/personal")
 @Slf4j
 @Api(tags = "个人数据相关接口")
@@ -29,7 +30,7 @@ public class PersonalDataController {
     @PostMapping
     public Result add(@RequestBody PersonalDataAddDTO personalDataAddDTO){
         log.info("增加个人数据：{}", personalDataAddDTO);
-        personalDataService.add(personalDataAddDTO);
+        personalDataService.add(personalDataAddDTO, FromConstant.ADMIN);
         return Result.success();
     }
 
@@ -66,7 +67,7 @@ public class PersonalDataController {
     @PutMapping("/{id}")
     public Result update(@PathVariable Long id, @RequestBody PersonalDataUpdateDTO personalDataUpdateDTO){
         log.info("修改个人数据ID：{}，信息：{}", id, personalDataUpdateDTO);
-        personalDataService.update(id, personalDataUpdateDTO);
+        personalDataService.update(id, personalDataUpdateDTO, FromConstant.ADMIN);
         return Result.success();
     }
 

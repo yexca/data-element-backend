@@ -24,6 +24,8 @@ public class EnterpriseUser implements Serializable {
 
     private Long countryId;
 
+    private Integer roleId;
+
     private Integer status;
 
     private String evidence;

@@ -4,6 +4,7 @@ import com.yexca.dto.PersonalDataAddDTO;
 import com.yexca.dto.PersonalDataPageQueryDTO;
 import com.yexca.dto.PersonalDataUpdateDTO;
 import com.yexca.result.PageResult;
+import com.yexca.vo.PersonalDataCommonVO;
 import com.yexca.vo.PersonalDataUpdateVO;
 
 public interface PersonalDataService {
@@ -11,7 +12,7 @@ public interface PersonalDataService {
      * 增加个人数据
      * @param personalDataAddDTO
      */
-    void add(PersonalDataAddDTO personalDataAddDTO);
+    void add(PersonalDataAddDTO personalDataAddDTO, String from);
 
     /**
      * 根据ID删除数据
@@ -31,7 +32,7 @@ public interface PersonalDataService {
      * @param id
      * @param personalDataUpdateDTO
      */
-    void update(Long id, PersonalDataUpdateDTO personalDataUpdateDTO);
+    void update(Long id, PersonalDataUpdateDTO personalDataUpdateDTO, String from);
 
     /**
      * 根据Id获取个人数据信息
@@ -39,4 +40,11 @@ public interface PersonalDataService {
      * @return
      */
     PersonalDataUpdateVO getById(Long id);
+
+    /**
+     * 根据Id获取个人数据Common信息
+     * @param dataId
+     * @return
+     */
+    PersonalDataCommonVO getCommonById(Long dataId);
 }

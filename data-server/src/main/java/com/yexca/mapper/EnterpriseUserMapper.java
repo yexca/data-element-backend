@@ -26,4 +26,7 @@ public interface EnterpriseUserMapper {
 
     @Select("select username from enterprise_user where user_id = #{userId}")
     String getUsernameById(Long userId);
+
+    @Select("select * from enterprise_user where username = #{username}")
+    EnterpriseUser getByUsername(String username);
 }

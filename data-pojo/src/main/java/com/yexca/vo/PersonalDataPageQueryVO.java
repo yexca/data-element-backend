@@ -12,7 +12,7 @@ public class PersonalDataPageQueryVO implements Serializable {
 
     private Long dataId;
 
-    private String userName;
+    private String username;
 
     private Long userId;
 
