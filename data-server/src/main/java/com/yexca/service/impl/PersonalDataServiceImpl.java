@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PersonalDataServiceImpl implements PersonalDataService {
@@ -197,5 +198,54 @@ public class PersonalDataServiceImpl implements PersonalDataService {
             personalDataCommonVO.setStatus("禁用");
         }
         return personalDataCommonVO;
+    }
+
+    /**
+     * 用户查询用户数据
+     * @param currentUserId
+     * @param personalDataPageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult userPageQuery(Long currentUserId, PersonalDataPageQueryDTO personalDataPageQueryDTO) {
+        // 开始分页查询
+        PageHelper.startPage(personalDataPageQueryDTO.getPage(), personalDataPageQueryDTO.getPageSize());
+        // Mapper层-查询自己的数据
+        Page<PersonalData> page;
+        if(Objects.equals(currentUserId, personalDataPageQueryDTO.getUserId())){
+            page = personalDataMapper.pageQuery(personalDataPageQueryDTO);
+        }else {
+            personalDataPageQueryDTO.setStatus(StatusConstant.ENABLE);
+            page = personalDataMapper.pageQuery(personalDataPageQueryDTO);
+        }
+
+        // 查询结束，获取结果
+        long total = page.getTotal();
+        List<PersonalData> records = page.getResult();
+
+        // 处理数据--新建返回对象
+        List<PersonalDataPageQueryVO> resultRecords = new ArrayList<>();
+
+        // 循环处理数据
+        for (PersonalData record : records) {
+            // 新建返回对象
+            PersonalDataPageQueryVO personalDataPageQueryVO = new PersonalDataPageQueryVO();
+            BeanUtils.copyProperties(record, personalDataPageQueryVO);
+            // 用户名
+            personalDataPageQueryVO.setUsername(personalUserMapper.getUsernameById(record.getUserId()));
+            // 分类
+            personalDataPageQueryVO.setCategoryName(categoryMapper.getNameById(record.getCategoryId()));
+            // 处理状态信息
+            Integer status = record.getStatus();
+            if(status.equals(StatusConstant.ENABLE)){
+                personalDataPageQueryVO.setStatus("启用");
+            }else{
+                personalDataPageQueryVO.setStatus("禁用");
+            }
+
+            resultRecords.add(personalDataPageQueryVO);
+        }
+
+        return new PageResult(total, resultRecords);
     }
 }

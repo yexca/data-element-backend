@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("adminCountryController")
 @RequestMapping("/admin/country")
 @Slf4j
 @Api(tags = "国家相关接口")

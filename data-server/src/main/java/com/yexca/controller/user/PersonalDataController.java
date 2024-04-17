@@ -54,11 +54,11 @@ public class PersonalDataController {
      * @return
      */
     @GetMapping
-    public Result<PageResult> pageQuery(PersonalDataPageQueryDTO personalDataPageQueryDTO){
+    public Result<PageResult> userPageQuery(PersonalDataPageQueryDTO personalDataPageQueryDTO){
         Long currentUserId = BaseContext.getCurrentUserId();
-        personalDataPageQueryDTO.setUserId(currentUserId);
+//        personalDataPageQueryDTO.setUserId(currentUserId);
         log.info("个人ID：{}数据分页查询：{}",currentUserId, personalDataPageQueryDTO);
-        PageResult pageResult = personalDataService.pageQuery(personalDataPageQueryDTO);
+        PageResult pageResult = personalDataService.userPageQuery(currentUserId, personalDataPageQueryDTO);
         return Result.success(pageResult);
     }
 

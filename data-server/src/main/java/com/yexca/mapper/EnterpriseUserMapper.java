@@ -10,8 +10,7 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface EnterpriseUserMapper {
-    @Insert("insert into enterprise_user(username, password, enterprise_name, email, phone, country_id, status, evidence, create_by, create_from, create_time, update_by, update_from, update_time) VALUES " +
-            "(#{username}, #{password}, #{enterpriseName}, #{email}, #{phone}, #{countryId},#{status}, #{evidence}, #{createBy}, #{createFrom}, #{createTime}, #{updateBy}, #{updateFrom}, #{updateTime})")
+
     void insert(EnterpriseUser enterpriseUser);
 
     @Delete("delete from enterprise_user where user_id = #{id}")

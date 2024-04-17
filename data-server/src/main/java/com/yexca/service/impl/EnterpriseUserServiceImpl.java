@@ -4,10 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yexca.constant.*;
 import com.yexca.context.BaseContext;
-import com.yexca.dto.EnterpriseUserAddDTO;
-import com.yexca.dto.EnterpriseUserLoginDTO;
-import com.yexca.dto.EnterpriseUserPageQueryDTO;
-import com.yexca.dto.EnterpriseUserUpdateDTO;
+import com.yexca.dto.*;
 import com.yexca.entity.Employee;
 import com.yexca.entity.EnterpriseUser;
 import com.yexca.entity.PersonalUser;
@@ -243,6 +240,42 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
         }
 
         return enterpriseUserPageQueryVO;
+    }
+
+    /**
+     * 企业用户注册后登录
+     * @param enterpriseUserRegisterDTO
+     * @return
+     */
+    @Override
+    public EnterpriseUser register(EnterpriseUserRegisterDTO enterpriseUserRegisterDTO) {
+        // 注册逻辑
+        EnterpriseUser enterpriseUser = new EnterpriseUser();
+        BeanUtils.copyProperties(enterpriseUserRegisterDTO, enterpriseUser);
+        // 检查密码
+        if(enterpriseUser.getPassword() == null){
+            enterpriseUser.setPassword(DigestUtils.sha1Hex(PasswordConstant.DEFAULT_PASSWORD));
+        }else {
+            enterpriseUser.setPassword(DigestUtils.sha1Hex(enterpriseUser.getPassword()));
+        }
+        // 设置角色
+        enterpriseUser.setRoleId(102);
+        // 设置状态
+        enterpriseUser.setStatus(StatusConstant.ENABLE);
+        // 创建来源与修改来源
+        enterpriseUser.setCreateFrom(FromConstant.USER);
+        enterpriseUser.setUpdateFrom(FromConstant.USER);
+        // 创建时间与修改时间
+        enterpriseUser.setCreateTime(LocalDateTime.now());
+        enterpriseUser.setUpdateTime(LocalDateTime.now());
+        // 创建人与修改人，设置为0表示注册
+        enterpriseUser.setCreateBy(0L);
+        enterpriseUser.setUpdateBy(0L);
+        // 插入数据
+        enterpriseUserMapper.insert(enterpriseUser);
+
+        // 登录返回逻辑
+        return enterpriseUser;
     }
 
 }

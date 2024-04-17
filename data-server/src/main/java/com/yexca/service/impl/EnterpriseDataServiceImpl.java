@@ -9,6 +9,7 @@ import com.yexca.dto.EnterpriseDataAddDTO;
 import com.yexca.dto.EnterpriseDataPageQueryDTO;
 import com.yexca.dto.EnterpriseDataUpdateDTO;
 import com.yexca.entity.EnterpriseData;
+import com.yexca.entity.PersonalData;
 import com.yexca.mapper.CategoryMapper;
 import com.yexca.mapper.EnterpriseDataMapper;
 import com.yexca.mapper.EnterpriseUserMapper;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EnterpriseDataServiceImpl implements EnterpriseDataService {
@@ -175,5 +177,56 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
         // 获取用户名
         enterpriseDataUpdateVO.setUsername(enterpriseUserMapper.getUsernameById(enterpriseData.getUserId()));
         return enterpriseDataUpdateVO;
+    }
+
+    /**
+     * 用户端分页查询
+     * @param currentUserId
+     * @param enterpriseDataPageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult userPageQuery(Long currentUserId, EnterpriseDataPageQueryDTO enterpriseDataPageQueryDTO) {
+        // 开始分页查询
+        PageHelper.startPage(enterpriseDataPageQueryDTO.getPage(), enterpriseDataPageQueryDTO.getPageSize());
+        // Mapper层-查询自己的数据
+        Page<EnterpriseData> page;
+        if(Objects.equals(currentUserId, enterpriseDataPageQueryDTO.getUserId())){
+            page = enterpriseDataMapper.pageQuery(enterpriseDataPageQueryDTO);
+        }else {
+            enterpriseDataPageQueryDTO.setStatus(StatusConstant.ENABLE);
+            page = enterpriseDataMapper.pageQuery(enterpriseDataPageQueryDTO);
+        }
+
+        // 查询结束，获取结果
+        long total = page.getTotal();
+        List<EnterpriseData> records = page.getResult();
+
+        // 返回数据列表
+        List<EnterpriseDataPageQueryVO> resultRecords = new ArrayList<>();
+        //处理数据
+        for (EnterpriseData record : records) {
+            // 新建返回对象
+            EnterpriseDataPageQueryVO enterpriseDataPageQueryVO = new EnterpriseDataPageQueryVO();
+
+            //处理
+            BeanUtils.copyProperties(record, enterpriseDataPageQueryVO);
+            // 用户名
+            enterpriseDataPageQueryVO.setUsername(enterpriseUserMapper.getUsernameById(record.getUserId()));
+            // 分类
+            enterpriseDataPageQueryVO.setCategoryName(categoryMapper.getNameById(record.getCategoryId()));
+            // 处理状态信息
+            Integer status = record.getStatus();
+            if(status.equals(StatusConstant.ENABLE)){
+                enterpriseDataPageQueryVO.setStatus("启用");
+            }else{
+                enterpriseDataPageQueryVO.setStatus("禁用");
+            }
+
+            // 添加到返回列表
+            resultRecords.add(enterpriseDataPageQueryVO);
+        }
+
+        return new PageResult(total, resultRecords);
     }
 }

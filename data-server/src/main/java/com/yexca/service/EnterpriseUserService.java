@@ -1,9 +1,6 @@
 package com.yexca.service;
 
-import com.yexca.dto.EnterpriseUserAddDTO;
-import com.yexca.dto.EnterpriseUserLoginDTO;
-import com.yexca.dto.EnterpriseUserPageQueryDTO;
-import com.yexca.dto.EnterpriseUserUpdateDTO;
+import com.yexca.dto.*;
 import com.yexca.entity.EnterpriseUser;
 import com.yexca.result.PageResult;
 import com.yexca.vo.EnterpriseDataPageQueryVO;
@@ -57,4 +54,11 @@ public interface EnterpriseUserService {
      * @return
      */
     EnterpriseUserPageQueryVO getInfo(Long currentUserId);
+
+    /**
+     * 企业用户注册
+     * @param enterpriseUserRegisterDTO
+     * @return
+     */
+    EnterpriseUser register(EnterpriseUserRegisterDTO enterpriseUserRegisterDTO);
 }

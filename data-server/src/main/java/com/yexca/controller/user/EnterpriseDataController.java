@@ -54,11 +54,11 @@ public class EnterpriseDataController {
      * @return
      */
     @GetMapping
-    public Result<PageResult> pageQuery(EnterpriseDataPageQueryDTO enterpriseDataPageQueryDTO){
+    public Result<PageResult> userPageQuery(EnterpriseDataPageQueryDTO enterpriseDataPageQueryDTO){
         Long currentUserId = BaseContext.getCurrentUserId();
-        enterpriseDataPageQueryDTO.setUserId(currentUserId);
+//        enterpriseDataPageQueryDTO.setUserId(currentUserId);
         log.info("企业ID：{}数据分页查询：{}",currentUserId, enterpriseDataPageQueryDTO);
-        PageResult pageResult = enterpriseDataService.pageQuery(enterpriseDataPageQueryDTO);
+        PageResult pageResult = enterpriseDataService.userPageQuery(currentUserId, enterpriseDataPageQueryDTO);
         return Result.success(pageResult);
     }
 

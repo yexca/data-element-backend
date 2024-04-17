@@ -1,4 +1,4 @@
-package com.yexca.controller.admin;
+package com.yexca.controller.user;
 
 import com.yexca.constant.MessageConstant;
 import com.yexca.result.Result;
@@ -17,8 +17,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@RestController("adminFileController")
-@RequestMapping("/admin/file")
+@RestController("userFileController")
+@RequestMapping("/user/file")
 @Slf4j
 @Api(tags = "文件接口")
 public class FileController {

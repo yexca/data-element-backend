@@ -39,4 +39,12 @@ public interface EnterpriseDataService {
      * @return
      */
     EnterpriseDataUpdateVO getById(Long id);
+
+    /**
+     * 用户端分页查询
+     * @param currentUserId
+     * @param enterpriseDataPageQueryDTO
+     * @return
+     */
+    PageResult userPageQuery(Long currentUserId, EnterpriseDataPageQueryDTO enterpriseDataPageQueryDTO);
 }

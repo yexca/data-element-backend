@@ -1,13 +1,11 @@
 package com.yexca.service.impl;
 
+import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yexca.constant.*;
 import com.yexca.context.BaseContext;
-import com.yexca.dto.PersonalLoginDTO;
-import com.yexca.dto.PersonalUserAddDTO;
-import com.yexca.dto.PersonalUserPageQueryDTO;
-import com.yexca.dto.PersonalUserUpdateDTO;
+import com.yexca.dto.*;
 import com.yexca.entity.Employee;
 import com.yexca.entity.PersonalUser;
 import com.yexca.exception.AccountLockedException;
@@ -18,6 +16,7 @@ import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.PersonalUserService;
 import com.yexca.vo.EmployeePageQueryVO;
+import com.yexca.vo.PersonalUserLoginVO;
 import com.yexca.vo.PersonalUserPageQueryVO;
 import com.yexca.vo.PersonalUserUpdateVO;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -224,6 +223,50 @@ public class PersonalUserServiceImpl implements PersonalUserService {
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
 
+        return personalUser;
+    }
+
+    /**
+     * 个人用户注册后登录
+     * @param personalUserRegisterDTO
+     * @return
+     */
+    @Override
+    public PersonalUser register(PersonalUserRegisterDTO personalUserRegisterDTO) {
+        // 注册逻辑
+        PersonalUser personalUser = new PersonalUser();
+        BeanUtils.copyProperties(personalUserRegisterDTO, personalUser);
+        // 检查密码
+        if(personalUser.getPassword() == null){
+            personalUser.setPassword(DigestUtils.sha1Hex(PasswordConstant.DEFAULT_PASSWORD));
+        }else {
+            personalUser.setPassword(DigestUtils.sha1Hex(personalUser.getPassword()));
+        }
+        // 检查昵称
+        if (personalUser.getNickname() == null){
+            personalUser.setNickname(personalUser.getUsername());
+        }
+        // 检查性别
+        if (personalUser.getGender() == null){
+            personalUser.setGender(0);
+        }
+        // 设置角色
+        personalUser.setRoleId(101);
+        // 设置状态
+        personalUser.setStatus(StatusConstant.ENABLE);
+        // 创建来源与修改来源
+        personalUser.setCreateFrom(FromConstant.USER);
+        personalUser.setUpdateFrom(FromConstant.USER);
+        // 创建时间与修改时间
+        personalUser.setCreateTime(LocalDateTime.now());
+        personalUser.setUpdateTime(LocalDateTime.now());
+        // 创建人与修改人，设置为0表示注册
+        personalUser.setCreateBy(0L);
+        personalUser.setUpdateBy(0L);
+        // 插入数据
+        personalUserMapper.insert(personalUser);
+
+        // 登录返回逻辑
         return personalUser;
     }
 

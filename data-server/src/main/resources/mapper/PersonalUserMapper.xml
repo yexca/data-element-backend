@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yexca.mapper.PersonalUserMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        insert into personal_user(username, password, nickname, email, phone, gender, country_id, nin, status, wx_openid, create_by, create_from, create_time, update_by, update_from, update_time)
+        VALUES (#{username}, #{password}, #{nickname}, #{email}, #{phone}, #{gender}, #{countryId}, #{nin}, #{status}, #{wxOpenid}, #{createBy}, #{createFrom}, #{createTime}, #{updateBy}, #{updateFrom}, #{updateTime})
+    </insert>
     <update id="update">
         update personal_user
         <set>

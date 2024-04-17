@@ -47,4 +47,12 @@ public interface PersonalDataService {
      * @return
      */
     PersonalDataCommonVO getCommonById(Long dataId);
+
+    /**
+     * 用户查询用户数据
+     * @param currentUserId
+     * @param personalDataPageQueryDTO
+     * @return
+     */
+    PageResult userPageQuery(Long currentUserId, PersonalDataPageQueryDTO personalDataPageQueryDTO);
 }
