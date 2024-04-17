@@ -8,12 +8,15 @@ import com.yexca.context.BaseContext;
 import com.yexca.dto.PersonalDataAddDTO;
 import com.yexca.dto.PersonalDataPageQueryDTO;
 import com.yexca.dto.PersonalDataUpdateDTO;
+import com.yexca.entity.ESData;
 import com.yexca.entity.PersonalData;
 import com.yexca.mapper.CategoryMapper;
 import com.yexca.mapper.PersonalDataMapper;
 import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.PersonalDataService;
+import com.yexca.utils.AliOssUtil;
+import com.yexca.utils.ElasticSearchUtil;
 import com.yexca.vo.PersonalDataCommonVO;
 import com.yexca.vo.PersonalDataPageQueryVO;
 import com.yexca.vo.PersonalDataUpdateVO;
@@ -34,6 +37,10 @@ public class PersonalDataServiceImpl implements PersonalDataService {
     private CategoryMapper categoryMapper;
     @Autowired
     private PersonalUserMapper personalUserMapper;
+    @Autowired
+    private AliOssUtil aliOssUtil;
+    @Autowired
+    private ElasticSearchUtil elasticSearchUtil;
 
     /**
      * 增加个人数据
@@ -82,6 +89,20 @@ public class PersonalDataServiceImpl implements PersonalDataService {
         }
 
         personalDataMapper.insert(personalData);
+
+
+        // 增加至ES
+        ESData esData = new ESData();
+        BeanUtils.copyProperties(personalData, esData);
+        // username
+        esData.setUsername(personalUserMapper.getNicknameById(personalData.getUserId()));
+        // userRole
+        esData.setUserRole(101);
+        // categoryName
+        esData.setCategoryName(categoryMapper.getNameById(personalData.getCategoryId()));
+        // 数据ID
+        String id = "personal_" + personalData.getDataId();
+        elasticSearchUtil.insert(id, esData);
     }
 
     /**
@@ -90,7 +111,13 @@ public class PersonalDataServiceImpl implements PersonalDataService {
      */
     @Override
     public void deleteById(Long id) {
+        // OSS删除
+        aliOssUtil.delete(personalDataMapper.getById(id).getFileLink());
+        // 数据库删除
         personalDataMapper.deleteById(id);
+        // ES删除
+        String esId = "personal_" + id.toString();
+        elasticSearchUtil.delete(esId);
     }
 
     /**
@@ -160,6 +187,19 @@ public class PersonalDataServiceImpl implements PersonalDataService {
         personalData.setUpdateFrom(from);
 
         personalDataMapper.update(personalData);
+
+        // ES
+        ESData esData = new ESData();
+        BeanUtils.copyProperties(personalData, esData);
+        // username
+        esData.setUsername(personalUserMapper.getNicknameById(personalData.getUserId()));
+        // userRole
+        esData.setUserRole(101);
+        // categoryName
+        esData.setCategoryName(categoryMapper.getNameById(personalData.getCategoryId()));
+        // 数据ID
+        String esId = "personal_" + id;
+        elasticSearchUtil.update(esId, esData);
     }
 
     /**

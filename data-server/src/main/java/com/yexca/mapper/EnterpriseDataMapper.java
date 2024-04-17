@@ -10,8 +10,7 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface EnterpriseDataMapper {
-    @Insert("insert into enterprise_data(user_id, name, description, category_id, sample_file_link, file_link, status, create_by, create_from, create_time, update_by, update_from, update_time) VALUES " +
-            "(#{userId}, #{name}, #{description}, #{categoryId}, #{sampleFileLink}, #{fileLink}, #{status}, #{createBy}, #{createFrom}, #{createTime}, #{updateBy}, #{updateFrom}, #{updateTime})")
+
     void insert(EnterpriseData enterpriseData);
 
     @Delete("delete from enterprise_data where data_id = #{id}")

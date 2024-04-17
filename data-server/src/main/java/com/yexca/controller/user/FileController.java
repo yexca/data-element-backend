@@ -39,6 +39,7 @@ public class FileController {
             String originalFilename = file.getOriginalFilename();
             // 获取文件名后缀
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            extension = extension.toLowerCase();
             // 构建新文件名
             String objectName = UUID.randomUUID().toString() + extension;
             // 文件请求路径

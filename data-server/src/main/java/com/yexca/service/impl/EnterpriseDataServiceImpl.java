@@ -8,6 +8,7 @@ import com.yexca.context.BaseContext;
 import com.yexca.dto.EnterpriseDataAddDTO;
 import com.yexca.dto.EnterpriseDataPageQueryDTO;
 import com.yexca.dto.EnterpriseDataUpdateDTO;
+import com.yexca.entity.ESData;
 import com.yexca.entity.EnterpriseData;
 import com.yexca.entity.PersonalData;
 import com.yexca.mapper.CategoryMapper;
@@ -15,6 +16,8 @@ import com.yexca.mapper.EnterpriseDataMapper;
 import com.yexca.mapper.EnterpriseUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.EnterpriseDataService;
+import com.yexca.utils.AliOssUtil;
+import com.yexca.utils.ElasticSearchUtil;
 import com.yexca.vo.EnterpriseDataPageQueryVO;
 import com.yexca.vo.EnterpriseDataUpdateVO;
 import org.springframework.beans.BeanUtils;
@@ -35,6 +38,10 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
     private EnterpriseUserMapper enterpriseUserMapper;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private AliOssUtil aliOssUtil;
+    @Autowired
+    private ElasticSearchUtil elasticSearchUtil;
 
     /**
      * 新增企业用户数据
@@ -80,6 +87,19 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
             enterpriseData.setUpdateBy(BaseContext.getCurrentUserId());
         }
         enterpriseDataMapper.insert(enterpriseData);
+
+        // 上传至ES
+        ESData esData = new ESData();
+        BeanUtils.copyProperties(enterpriseData, esData);
+        // username - enterpriseName
+        esData.setUsername(enterpriseUserMapper.getEnterpriseNameByID(enterpriseData.getUserId()));
+        // userRole
+        esData.setUserRole(102);
+        // categoryName
+        esData.setCategoryName(categoryMapper.getNameById(enterpriseData.getCategoryId()));
+        // 数据ID
+        String id = "enterprise_" + enterpriseData.getDataId();
+        elasticSearchUtil.insert(id, esData);
     }
 
     /**
@@ -88,7 +108,13 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
      */
     @Override
     public void deleteById(Long id) {
+        // OSS删除
+        aliOssUtil.delete(enterpriseDataMapper.getById(id).getSampleFileLink());
+        // 数据库删除
         enterpriseDataMapper.deleteById(id);
+        // ES删除
+        String esId = "enterprise_" + id.toString();
+        elasticSearchUtil.delete(esId);
     }
 
     /**
@@ -161,6 +187,19 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
         enterpriseData.setUpdateFrom(from);
 
         enterpriseDataMapper.update(enterpriseData);
+
+        // 上传至ES
+        ESData esData = new ESData();
+        BeanUtils.copyProperties(enterpriseData, esData);
+        // username - enterpriseName
+        esData.setUsername(enterpriseUserMapper.getEnterpriseNameByID(enterpriseData.getUserId()));
+        // userRole
+        esData.setUserRole(102);
+        // categoryName
+        esData.setCategoryName(categoryMapper.getNameById(enterpriseData.getCategoryId()));
+        // 数据ID
+        String esId = "enterprise_" + id;
+        elasticSearchUtil.insert(esId, esData);
     }
 
     /**

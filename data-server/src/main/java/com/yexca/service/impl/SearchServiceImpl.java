@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yexca.constant.ElasticSearchConstant;
 import com.yexca.result.PageResult;
 import com.yexca.service.SearchService;
+import com.yexca.utils.ElasticSearchUtil;
 import com.yexca.vo.DataSearchVO;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -27,7 +28,7 @@ import java.util.Map;
 @Service
 public class SearchServiceImpl implements SearchService {
     @Autowired
-    private RestHighLevelClient client;
+    private ElasticSearchUtil elasticSearchUtil;
 
     /**
      * 搜索
@@ -36,33 +37,7 @@ public class SearchServiceImpl implements SearchService {
      */
     @Override
     public PageResult search(String kw) {
-        // 创建请求
-        SearchRequest request = new SearchRequest(ElasticSearchConstant.INDEX_NAME);
-        // 搜索内容
-        request.source().query(QueryBuilders.matchQuery(
-                ElasticSearchConstant.SEARCH_FIELD_NAME,
-                kw
-        ));
-        // 高亮字段设置
-        request.source().highlighter(
-                new HighlightBuilder()
-                        .field("name")
-                        .requireFieldMatch(false)
-        );
-        request.source().highlighter(
-                new HighlightBuilder()
-                        .field("description")
-                        .requireFieldMatch(false)
-        );
-        // 排序
-        request.source().sort(ElasticSearchConstant.SORT_FIELD_NAME, SortOrder.DESC);
-        // 搜索
-        SearchResponse response = null;
-        try {
-            response = client.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        SearchResponse response = elasticSearchUtil.search(kw);
 
         // 解析响应
         SearchHits searchHits = response.getHits();
