@@ -2,7 +2,6 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yexca.constant.FromConstant;
 import com.yexca.constant.StatusConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.PersonalDataAddDTO;

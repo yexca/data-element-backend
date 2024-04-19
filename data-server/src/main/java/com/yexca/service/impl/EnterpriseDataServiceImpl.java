@@ -2,7 +2,6 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yexca.constant.FromConstant;
 import com.yexca.constant.StatusConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.EnterpriseDataAddDTO;
@@ -10,7 +9,6 @@ import com.yexca.dto.EnterpriseDataPageQueryDTO;
 import com.yexca.dto.EnterpriseDataUpdateDTO;
 import com.yexca.entity.ESData;
 import com.yexca.entity.EnterpriseData;
-import com.yexca.entity.PersonalData;
 import com.yexca.mapper.CategoryMapper;
 import com.yexca.mapper.EnterpriseDataMapper;
 import com.yexca.mapper.EnterpriseUserMapper;
@@ -22,7 +20,6 @@ import com.yexca.vo.EnterpriseDataPageQueryVO;
 import com.yexca.vo.EnterpriseDataUpdateVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
