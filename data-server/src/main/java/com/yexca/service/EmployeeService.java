@@ -6,6 +6,7 @@ import com.yexca.dto.EmployeePageQueryDTO;
 import com.yexca.dto.EmployeeUpdateDTO;
 import com.yexca.entity.Employee;
 import com.yexca.result.PageResult;
+import com.yexca.vo.EmployeePageQueryVO;
 import com.yexca.vo.EmployeeUpdateVO;
 
 public interface EmployeeService {
@@ -48,4 +49,11 @@ public interface EmployeeService {
      * @param id
      */
     void deleteById(Long id);
+
+    /**
+     * 获取个人信息
+     * @param currentEmpId
+     * @return
+     */
+    EmployeePageQueryVO getMyself(Long currentEmpId);
 }

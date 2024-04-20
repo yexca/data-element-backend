@@ -1,6 +1,7 @@
 package com.yexca.controller.admin;
 
 import com.yexca.constant.JwtClaimsConstant;
+import com.yexca.context.BaseContext;
 import com.yexca.dto.EmployeeAddDTO;
 import com.yexca.dto.EmployeeLoginDTO;
 import com.yexca.dto.EmployeePageQueryDTO;
@@ -12,7 +13,9 @@ import com.yexca.result.Result;
 import com.yexca.service.EmployeeService;
 import com.yexca.utils.JwtUtil;
 import com.yexca.vo.EmployeeLoginVO;
+import com.yexca.vo.EmployeePageQueryVO;
 import com.yexca.vo.EmployeeUpdateVO;
+import io.lettuce.core.ConnectionEvents;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -105,6 +108,10 @@ public class EmployeeController {
      */
     @PutMapping("/{id}")
     public Result update(@PathVariable Long id, @RequestBody EmployeeUpdateDTO employeeUpdateDTO){
+        if(id == 0L){
+            // 修改自己的id
+            id = BaseContext.getCurrentEmpId();
+        }
         log.info("修改员工信息ID：{}，信息：{}", id, employeeUpdateDTO);
         employeeService.update(id, employeeUpdateDTO);
         return Result.success();
@@ -127,5 +134,17 @@ public class EmployeeController {
         log.info("删除员工ID：{}", id);
         employeeService.deleteById(id);
         return Result.success();
+    }
+
+    /**
+     * 获取个人信息
+     * @return
+     */
+    @GetMapping("/my")
+    public Result<EmployeePageQueryVO> getMyself(){
+        Long currentEmpId = BaseContext.getCurrentEmpId();
+        log.info("获取个人信息：{}", currentEmpId);
+        EmployeePageQueryVO employeePageQueryVO = employeeService.getMyself(currentEmpId);
+        return Result.success(employeePageQueryVO);
     }
 }

@@ -129,7 +129,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         long total = page.getTotal();
         List<Employee> records = page.getResult();
 
-        System.out.println(page);
+//        System.out.println(page);
 
         // 处理数据，新建返回体对象列表
         List<EmployeePageQueryVO> resultRecords = new ArrayList<>();
@@ -194,6 +194,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteById(Long id) {
         employeeMapper.deleteById(id);
+    }
+
+    /**
+     * 获取个人信息
+     * @param currentEmpId
+     * @return
+     */
+    @Override
+    public EmployeePageQueryVO getMyself(Long currentEmpId) {
+        Employee employee = employeeMapper.getById(currentEmpId);
+
+        EmployeePageQueryVO employeePageQueryVO = handleEmployeeToVO(employee);
+        return employeePageQueryVO;
     }
 
     /**
