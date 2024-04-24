@@ -70,7 +70,7 @@ public class PersonalUserController {
     }
 
     /**
-     * 获取个人信息
+     * 根据ID获取信息
      * @param
      * @return
      */
@@ -83,7 +83,7 @@ public class PersonalUserController {
     }
 
     /**
-     * 根据ID获取信息
+     * 获取个人信息
      * @return
      */
     @GetMapping
