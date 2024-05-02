@@ -18,7 +18,7 @@ public interface CountryMapper {
     String getNameByCountryId(Long countryId);
 
     @Select("select * from country")
-    List<CountryListVO> list();
+    List<Country> list();
 
     @Select("select phone from country where country_id = #{countryId}")
     Integer getPhoneById(Long countryId);

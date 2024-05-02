@@ -165,6 +165,10 @@ public class CategoryServiceImpl implements CategoryService {
         // 返回对象
         List<CategoryListVO> categoryListVOList = new ArrayList<>();
         for (Category category : categoryList) {
+            // 判断status
+            if(category.getStatus() != StatusConstant.ENABLE){
+                continue;
+            }
             CategoryListVO categoryListVO = new CategoryListVO();
             BeanUtils.copyProperties(category, categoryListVO);
             categoryListVOList.add(categoryListVO);

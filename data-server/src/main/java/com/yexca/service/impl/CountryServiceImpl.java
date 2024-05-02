@@ -19,10 +19,7 @@ import com.yexca.mapper.EnterpriseUserMapper;
 import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.CountryService;
-import com.yexca.vo.CountryListVO;
-import com.yexca.vo.CountryPageQueryVO;
-import com.yexca.vo.CountryUpdateVO;
-import com.yexca.vo.EmployeePageQueryVO;
+import com.yexca.vo.*;
 import org.apache.poi.ss.formula.functions.Count;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +47,21 @@ public class CountryServiceImpl implements CountryService {
      */
     @Override
     public List<CountryListVO> list() {
-        return countryMapper.list();
+        List<Country> countryList = countryMapper.list();
+
+        // 返回对象
+        List<CountryListVO> countryListVOList = new ArrayList<>();
+        for (Country country : countryList) {
+            // 判断status
+            if(country.getStatus() != StatusConstant.ENABLE){
+                continue;
+            }
+            CountryListVO countryListVO = new CountryListVO();
+            BeanUtils.copyProperties(country, countryListVO);
+            countryListVOList.add(countryListVO);
+        }
+
+        return countryListVOList;
     }
 
     /**
