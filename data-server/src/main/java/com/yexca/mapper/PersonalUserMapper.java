@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface PersonalUserMapper {
 
@@ -31,4 +33,7 @@ public interface PersonalUserMapper {
 
     @Select("select nickname from personal_user where user_id = #{id}")
     String getNicknameById(Long id);
+
+    @Select("select * from personal_user where country_id = #{id}")
+    List<PersonalUser> getByCountryId(Long id);
 }

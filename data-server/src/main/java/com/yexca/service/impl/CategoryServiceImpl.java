@@ -2,6 +2,7 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yexca.constant.MessageConstant;
 import com.yexca.constant.StatusConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.CategoryAddDTO;
@@ -9,7 +10,12 @@ import com.yexca.dto.CategoryPageQueryDTO;
 import com.yexca.dto.CategoryUpdateDTO;
 import com.yexca.entity.Category;
 import com.yexca.entity.Country;
+import com.yexca.entity.EnterpriseData;
+import com.yexca.entity.PersonalData;
+import com.yexca.exception.CategoryException;
 import com.yexca.mapper.CategoryMapper;
+import com.yexca.mapper.EnterpriseDataMapper;
+import com.yexca.mapper.PersonalDataMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.CategoryService;
 import com.yexca.vo.CategoryListVO;
@@ -28,6 +34,10 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private PersonalDataMapper personalDataMapper;
+    @Autowired
+    private EnterpriseDataMapper enterpriseDataMapper;
 
     /**
      * 增加分类
@@ -60,6 +70,17 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public void deleteById(Long id) {
+        // 判断是否有该分类的数据
+        // 个人数据
+        List<PersonalData> personalDataList = personalDataMapper.getByCategoryId(id);
+        if(personalDataList != null){
+            throw new CategoryException(MessageConstant.CATEGORY_DELETE_FAILED_PERSONAL);
+        }
+        // 企业数据
+        List<EnterpriseData> enterpriseDataList = enterpriseDataMapper.getByCategoryId(id);
+        if(enterpriseDataList != null){
+            throw new CategoryException(MessageConstant.CATEGORY_DELETE_FAILED_ENTERPRISE);
+        }
         categoryMapper.deleteById(id);
     }
 

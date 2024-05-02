@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface EmployeeMapper {
 
@@ -40,4 +42,7 @@ public interface EmployeeMapper {
 
     @Delete("delete from employee where employee_id = #{id}")
     void deleteById(Long id);
+
+    @Select("select * from employee where country_id = #{id}")
+    List<Employee> getByCountryId(Long id);
 }

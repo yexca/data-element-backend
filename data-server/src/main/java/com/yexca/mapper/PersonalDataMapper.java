@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface PersonalDataMapper {
 
@@ -22,4 +24,7 @@ public interface PersonalDataMapper {
 
     @Select("select * from personal_data where data_id = #{id}")
     PersonalData getById(Long id);
+
+    @Select("select * from personal_data where category_id = #{id}")
+    List<PersonalData> getByCategoryId(Long id);
 }

@@ -9,12 +9,12 @@ public class MessageConstant {
     public static final String ACCOUNT_NOT_FOUND = "账号不存在";
     public static final String ACCOUNT_LOCKED = "账号被锁定";
     public static final String FISCO_BCOS_ERROR = "区块链连接异常";
-    public static final String USER_NOT_LOGIN = "用户未登录";
-    public static final String CATEGORY_BE_RELATED_BY_SETMEAL = "当前分类关联了套餐,不能删除";
-    public static final String CATEGORY_BE_RELATED_BY_DISH = "当前分类关联了菜品,不能删除";
-    public static final String SHOPPING_CART_IS_NULL = "购物车数据为空，不能下单";
-    public static final String ADDRESS_BOOK_IS_NULL = "用户地址为空，不能下单";
-    public static final String LOGIN_FAILED = "登录失败";
+    public static final String COUNTRY_DELETE_FAILED_PERSONAL = "当前国家或地区存在个人用户，不能删除";
+    public static final String COUNTRY_DELETE_FAILED_ENTERPRISE = "当前国家或地区存在企业用户，不能删除";
+    public static final String COUNTRY_DELETE_FAILED_EMPLOYEE = "当前国家或地区存在员工，不能删除";
+    public static final String CATEGORY_DELETE_FAILED_PERSONAL = "当前分类存在个人数据产品，不能删除";
+    public static final String CATEGORY_DELETE_FAILED_ENTERPRISE = "当前分类存在企业数据产品，不能删除";
+
     public static final String UPLOAD_FAILED = "文件上传失败";
     public static final String SETMEAL_ENABLE_FAILED = "套餐内包含未启售菜品，无法启售";
     public static final String PASSWORD_EDIT_FAILED = "密码修改失败";

@@ -2,6 +2,7 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yexca.constant.MessageConstant;
 import com.yexca.constant.StatusConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.CountryAddDTO;
@@ -9,7 +10,13 @@ import com.yexca.dto.CountryPageQueryDTO;
 import com.yexca.dto.CountryUpdateDTO;
 import com.yexca.entity.Country;
 import com.yexca.entity.Employee;
+import com.yexca.entity.EnterpriseUser;
+import com.yexca.entity.PersonalUser;
+import com.yexca.exception.CountryException;
 import com.yexca.mapper.CountryMapper;
+import com.yexca.mapper.EmployeeMapper;
+import com.yexca.mapper.EnterpriseUserMapper;
+import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.CountryService;
 import com.yexca.vo.CountryListVO;
@@ -30,6 +37,12 @@ import java.util.List;
 public class CountryServiceImpl implements CountryService {
     @Autowired
     private CountryMapper countryMapper;
+    @Autowired
+    private PersonalUserMapper personalUserMapper;
+    @Autowired
+    private EnterpriseUserMapper enterpriseUserMapper;
+    @Autowired
+    private EmployeeMapper employeeMapper;
 
     /**
      * 获取全部国家
@@ -71,6 +84,23 @@ public class CountryServiceImpl implements CountryService {
      */
     @Override
     public void deleteById(Long id) {
+        // 判断是否有该国家的人
+        // 个人用户
+        List<PersonalUser> personalUserList = personalUserMapper.getByCountryId(id);
+        if(personalUserList != null){
+            throw new CountryException(MessageConstant.COUNTRY_DELETE_FAILED_PERSONAL);
+        }
+        // 企业用户
+        List<EnterpriseUser> enterpriseUserList = enterpriseUserMapper.getByCountryId(id);
+        if(enterpriseUserList != null){
+            throw new CountryException(MessageConstant.COUNTRY_DELETE_FAILED_ENTERPRISE);
+        }
+        // 员工
+        List<Employee> employeeList = employeeMapper.getByCountryId(id);
+        if(employeeList != null){
+            throw new CountryException(MessageConstant.COUNTRY_DELETE_FAILED_EMPLOYEE);
+        }
+
         countryMapper.deleteById(id);
     }
 

@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface EnterpriseDataMapper {
 
@@ -22,4 +24,7 @@ public interface EnterpriseDataMapper {
 
     @Select("select * from enterprise_data where data_id = #{id}")
     EnterpriseData getById(Long id);
+
+    @Select("select * from enterprise_data where category_id = #{id}")
+    List<EnterpriseData> getByCategoryId(Long id);
 }
