@@ -13,6 +13,7 @@
     <module>data-common</module>
     <module>data-pojo</module>
     <module>data-server</module>
+      <module>data-fisco</module>
   </modules>
   <version>1.0-SNAPSHOT</version>
   <properties>

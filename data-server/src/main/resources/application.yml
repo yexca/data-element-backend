@@ -60,3 +60,7 @@ data-element:
     endpoint: ${data.alioss.endpoint}
   elastic-search:
     server: ${data.elastic-search.server}
+  fisco-ecos:
+    config-file: src/main/resources/config-example.toml
+    abi-file-path: src/main/resources/abi/
+    bin-file-path: ""
