@@ -2,6 +2,7 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yexca.constant.ContractConstant;
 import com.yexca.constant.StatusConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.EnterpriseDataAddDTO;
@@ -16,6 +17,7 @@ import com.yexca.result.PageResult;
 import com.yexca.service.EnterpriseDataService;
 import com.yexca.utils.AliOssUtil;
 import com.yexca.utils.ElasticSearchUtil;
+import com.yexca.utils.FiscoBcosUtil;
 import com.yexca.vo.EnterpriseDataPageQueryVO;
 import com.yexca.vo.EnterpriseDataUpdateVO;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +41,8 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
     private AliOssUtil aliOssUtil;
     @Autowired
     private ElasticSearchUtil elasticSearchUtil;
+    @Autowired
+    private FiscoBcosUtil fiscoBcosUtil;
 
     /**
      * 新增企业用户数据
@@ -59,7 +63,7 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
 //        if(enterpriseData.getCreateFrom() == null){
 //            enterpriseData.setCreateFrom(FromConstant.ADMIN);
 //        }
-        enterpriseData.setUpdateFrom(from);
+        enterpriseData.setCreateFrom(from);
 
         // 判断是否有修改来源
 //        if(enterpriseData.getUpdateFrom() == null){
@@ -97,6 +101,19 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
         // 数据ID
         String id = "enterprise_" + enterpriseData.getDataId();
         elasticSearchUtil.insert(id, esData);
+
+        // 增加至区块链，构建数据
+        String dataId = "enterprise_data_" + enterpriseData.getDataId();
+        String userId = "enterprise_user_" + enterpriseData.getUserId();
+        List<Object> params = new ArrayList<>();
+        params.add(dataId);
+        params.add(userId);
+        // 发送请求
+        fiscoBcosUtil.add(params, ContractConstant.ENTERPRISE_DATA, ContractConstant.ENTERPRISE_DATA_ADDRESS);
+//        List<Object> objectList = fiscoBcosUtil.add(params, ContractConstant.ENTERPRISE_DATA, ContractConstant.ENTERPRISE_DATA_ADDRESS);
+//        for (Object object : objectList) {
+//            System.out.println("区块链返回：" + object);
+//        }
     }
 
     /**

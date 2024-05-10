@@ -15,6 +15,7 @@ import com.yexca.mapper.CountryMapper;
 import com.yexca.mapper.EnterpriseUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.EnterpriseUserService;
+import com.yexca.utils.FiscoBcosUtil;
 import com.yexca.vo.EmployeePageQueryVO;
 import com.yexca.vo.EnterpriseDataPageQueryVO;
 import com.yexca.vo.EnterpriseUserPageQueryVO;
@@ -34,6 +35,9 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
     private EnterpriseUserMapper enterpriseUserMapper;
     @Autowired
     private CountryMapper countryMapper;
+    @Autowired
+    private FiscoBcosUtil fiscoBcosUtil;
+
     /**
      * 添加企业用户
      * @param enterpriseUserAddDTO
@@ -81,6 +85,15 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
 
         // Mapper插入数据
         enterpriseUserMapper.insert(enterpriseUser);
+
+        // 增加至区块链，构建数据
+        String userId = "enterprise_user_" + enterpriseUser.getUserId();
+        String username = "enterprise_username_" + enterpriseUser.getUsername();
+        List<Object> params = new ArrayList<>();
+        params.add(userId);
+        params.add(username);
+        // 发送请求
+        fiscoBcosUtil.add(params, ContractConstant.ENTERPRISE_USER, ContractConstant.ENTERPRISE_USER_ADDRESS);
     }
 
     /**
@@ -273,6 +286,15 @@ public class EnterpriseUserServiceImpl implements EnterpriseUserService {
         enterpriseUser.setUpdateBy(0L);
         // 插入数据
         enterpriseUserMapper.insert(enterpriseUser);
+
+        // 增加至区块链，构建数据
+        String userId = "enterprise_user_" + enterpriseUser.getUserId();
+        String username = "enterprise_username_" + enterpriseUser.getUsername();
+        List<Object> params = new ArrayList<>();
+        params.add(userId);
+        params.add(username);
+        // 发送请求
+        fiscoBcosUtil.add(params, ContractConstant.ENTERPRISE_USER, ContractConstant.ENTERPRISE_USER_ADDRESS);
 
         // 登录返回逻辑
         return enterpriseUser;

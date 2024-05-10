@@ -2,6 +2,7 @@ package com.yexca.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yexca.constant.ContractConstant;
 import com.yexca.constant.StatusConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.dto.PersonalDataAddDTO;
@@ -16,6 +17,7 @@ import com.yexca.result.PageResult;
 import com.yexca.service.PersonalDataService;
 import com.yexca.utils.AliOssUtil;
 import com.yexca.utils.ElasticSearchUtil;
+import com.yexca.utils.FiscoBcosUtil;
 import com.yexca.vo.PersonalDataCommonVO;
 import com.yexca.vo.PersonalDataPageQueryVO;
 import com.yexca.vo.PersonalDataUpdateVO;
@@ -40,6 +42,8 @@ public class PersonalDataServiceImpl implements PersonalDataService {
     private AliOssUtil aliOssUtil;
     @Autowired
     private ElasticSearchUtil elasticSearchUtil;
+    @Autowired
+    private FiscoBcosUtil fiscoBcosUtil;
 
     /**
      * 增加个人数据
@@ -102,6 +106,19 @@ public class PersonalDataServiceImpl implements PersonalDataService {
         // 数据ID
         String id = "personal_" + personalData.getDataId();
         elasticSearchUtil.insert(id, esData);
+
+        // 增加至区块链，构建数据
+        String dataId = "personal_data_" + personalData.getDataId();
+        String userId = "personal_user_" + personalData.getUserId();
+        List<Object> params = new ArrayList<>();
+        params.add(dataId);
+        params.add(userId);
+        // 发送请求
+        fiscoBcosUtil.add(params, ContractConstant.PERSONAL_DATA, ContractConstant.PERSONAL_DATA_ADDRESS);
+//        List<Object> objectList = fiscoBcosUtil.add(params, ContractConstant.PERSONAL_DATA, ContractConstant.PERSONAL_DATA_ADDRESS);
+//        for (Object object : objectList) {
+//            System.out.println("区块链返回：" + object);
+//        }
     }
 
     /**

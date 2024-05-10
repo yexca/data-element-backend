@@ -15,6 +15,7 @@ import com.yexca.mapper.CountryMapper;
 import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.PersonalUserService;
+import com.yexca.utils.FiscoBcosUtil;
 import com.yexca.vo.EmployeePageQueryVO;
 import com.yexca.vo.PersonalUserLoginVO;
 import com.yexca.vo.PersonalUserPageQueryVO;
@@ -34,6 +35,9 @@ public class PersonalUserServiceImpl implements PersonalUserService {
     private PersonalUserMapper personalUserMapper;
     @Autowired
     private CountryMapper countryMapper;
+    @Autowired
+    private FiscoBcosUtil fiscoBcosUtil;
+
     /**
      * 增加个人用户
      * @param personalUserAddDTO
@@ -86,6 +90,19 @@ public class PersonalUserServiceImpl implements PersonalUserService {
 
         // Mapper插入数据
         personalUserMapper.insert(personalUser);
+
+        // 增加至区块链，构建数据
+        String userId = "personal_user_" + personalUser.getUserId();
+        String username = "personal_username_" + personalUser.getUsername();
+        List<Object> params = new ArrayList<>();
+        params.add(userId);
+        params.add(username);
+        // 发送请求
+        fiscoBcosUtil.add(params, ContractConstant.PERSONAL_USER, ContractConstant.PERSONAL_USER_ADDRESS);
+//        List<Object> objectList = fiscoBcosUtil.add(params, ContractConstant.PERSONAL_USER, ContractConstant.PERSONAL_USER_ADDRESS);
+//        for (Object object : objectList) {
+//            System.out.println("区块链返回：" + object);
+//        }
     }
 
     /**
@@ -265,6 +282,15 @@ public class PersonalUserServiceImpl implements PersonalUserService {
         personalUser.setUpdateBy(0L);
         // 插入数据
         personalUserMapper.insert(personalUser);
+
+        // 增加至区块链，构建数据
+        String userId = "personal_user_" + personalUser.getUserId();
+        String username = "personal_username_" + personalUser.getUsername();
+        List<Object> params = new ArrayList<>();
+        params.add(userId);
+        params.add(username);
+        // 发送请求
+        fiscoBcosUtil.add(params, ContractConstant.PERSONAL_USER, ContractConstant.PERSONAL_USER_ADDRESS);
 
         // 登录返回逻辑
         return personalUser;
