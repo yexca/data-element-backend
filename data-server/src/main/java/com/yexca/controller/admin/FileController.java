@@ -1,7 +1,10 @@
 package com.yexca.controller.admin;
 
 import com.yexca.constant.MessageConstant;
+import com.yexca.context.BaseContext;
+import com.yexca.exception.BaseException;
 import com.yexca.result.Result;
+import com.yexca.service.FileService;
 import com.yexca.utils.AliOssUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +26,7 @@ import java.util.regex.Pattern;
 @Api(tags = "文件接口")
 public class FileController {
     @Autowired
-    private AliOssUtil aliOssUtil;
+    private FileService fileService;
 
     /**
      * 文件上传
@@ -32,24 +35,10 @@ public class FileController {
      */
     @PostMapping
     public Result<String> upload(MultipartFile file){
-        log.info("文件上传：{}", file);
+        log.info("员工{}，文件上传：{}", BaseContext.getCurrentEmpId(), file);
 
-        try {
-            // 获取原始文件名
-            String originalFilename = file.getOriginalFilename();
-            // 获取文件名后缀
-            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            // 构建新文件名
-            String objectName = UUID.randomUUID().toString() + extension;
-            // 文件请求路径
-            String filePath = aliOssUtil.upload(file.getBytes(), objectName);
-            //返回文件路径
-            return Result.success(filePath);
-        } catch (IOException e) {
-            log.error("文件上传失败：{}", e);
-        }
-
-        return Result.error(MessageConstant.UPLOAD_FAILED);
+        String filePath = fileService.upload(file);
+        return Result.success(filePath);
     }
 
     /**
@@ -59,9 +48,9 @@ public class FileController {
      */
     @DeleteMapping
     public Result delete(String file){
-        log.info("文件删除：{}", file);
-        aliOssUtil.delete(file);
-//
+        log.info("员工{}，文件删除：{}", BaseContext.getCurrentEmpId(), file);
+
+        fileService.delete(file);
         return Result.success();
     }
 

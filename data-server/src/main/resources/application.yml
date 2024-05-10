@@ -11,7 +11,6 @@ spring:
     active: dev
   servlet:
     multipart:
-      enable: true
       # 最大单个文件大小
       max-file-size: 10MB
       # 整个请求最大大小(可多文件)

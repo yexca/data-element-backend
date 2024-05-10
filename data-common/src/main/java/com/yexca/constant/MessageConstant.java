@@ -16,6 +16,7 @@ public class MessageConstant {
     public static final String CATEGORY_DELETE_FAILED_ENTERPRISE = "当前分类存在企业数据产品，不能删除";
 
     public static final String UPLOAD_FAILED = "文件上传失败";
+    public static final String DELETE_FAILED = "文件删除失败，文件名不是UUID";
     public static final String SETMEAL_ENABLE_FAILED = "套餐内包含未启售菜品，无法启售";
     public static final String PASSWORD_EDIT_FAILED = "密码修改失败";
     public static final String DISH_ON_SALE = "起售中的菜品不能删除";
