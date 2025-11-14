@@ -1,3 +1,5 @@
+> 言語: [日本語](README.ja.md)
+
 # Data Element Market Supply-Side Management System - Backend
 
 Frontend repository: [data-element-frontend](https://github.com/yexca/data-element-frontend)
