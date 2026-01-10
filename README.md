@@ -1,5 +1,3 @@
-> 言語: [日本語](README.ja.md)
-
 # Data Element Market Supply-Side Management System - Backend
 
 Frontend repository: [data-element-frontend](https://github.com/yexca/data-element-frontend)
@@ -9,6 +7,39 @@ Frontend repository: [data-element-frontend](https://github.com/yexca/data-eleme
 This project is a management system focused on the "supply side" of the data element market, developed to address the data explosion driven by the Fourth Industrial Revolution and the rise of Generative AI.
 
 To overcome the challenges of traditional centralized data management, this system innovatively integrates SpringBoot, Elasticsearch, and the Web3 foundational technology of blockchain (Fisco Bcos). This integration provides efficient data search capabilities and immutable record-keeping, ensuring data authenticity and ownership.
+
+## 🏗 System Architecture
+
+The system adopts a sophisticated microservice-oriented architecture with a clear separation of concerns.
+
+### System Topology
+
+![System Architecture](./readme-image/sys-arch.svg)
+
+### Backend Logic Flow
+
+![Backend Logic Flow](./readme-image/backend-arch.svg)
+
+**Architectural Highlights:**
+* **Data Services Layer:** Orchestrates four distinct storage engines:
+    * **MySQL:** For structured relational data (User/Product info).
+    * **Elasticsearch:** For high-performance full-text search.
+    * **Fisco Bcos (Blockchain):** For immutable transaction records and ownership tracing.
+    * **Aliyun OSS:** For unstructured object storage (files/samples).
+* **Interceptor Pattern:** A unified security layer handles JWT validation before requests reach the Controller.
+
+<details>
+<summary><b>💾 Database Design (E-R Diagram)</b></summary>
+
+The database schema is designed to support RBAC (Role-Based Access Control) and complex data product relationships.
+
+<div align="center">
+    <img src="https://github.com/yexca/picx-images-hosting/raw/master/2026/01-data-element-readme/e-r.5j4oodl078.webp" width="80%" alt="Entity Relationship Diagram">
+    <br>
+    <em>Entity-Relationship Diagram illustrating Users, Roles, and Data Products</em>
+</div>
+
+</details>
 
 ## 🌟 Main Features
 
