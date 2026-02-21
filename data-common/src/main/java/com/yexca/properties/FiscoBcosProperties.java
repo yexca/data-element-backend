@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "data-element.fisco-ecos")
 @Data
 public class FiscoBcosProperties {
+    private boolean enabled;
+
     private String configFile;
 
     private String abiFilePath;

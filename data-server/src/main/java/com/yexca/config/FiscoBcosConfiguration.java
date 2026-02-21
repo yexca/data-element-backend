@@ -16,6 +16,7 @@ public class FiscoBcosConfiguration {
     public FiscoBcosUtil fiscoBcosUtil(FiscoBcosProperties fiscoBcosProperties){
         log.info("开始创建区块链工具类对象");
         return new FiscoBcosUtil(
+                fiscoBcosProperties.isEnabled(),
                 fiscoBcosProperties.getConfigFile(),
                 fiscoBcosProperties.getAbiFilePath(),
                 fiscoBcosProperties.getBinFilePath()

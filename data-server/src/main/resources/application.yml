@@ -61,6 +61,7 @@ data-element:
   elastic-search:
     server: ${data.elastic-search.server}
   fisco-ecos:
+    enabled: false
     config-file: src/main/resources/config-example.toml
     abi-file-path: src/main/resources/abi/
     bin-file-path: ""
