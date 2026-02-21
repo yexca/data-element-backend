@@ -14,6 +14,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -25,10 +27,47 @@ import java.io.IOException;
 @AllArgsConstructor
 @Slf4j
 public class ElasticSearchUtil {
-    private String server;
+//    private String server;
+    private RestHighLevelClient client;
 
+    /**
+     * 判断索引库是否存在
+     * @return
+     */
+    public boolean existsIndex() {
+        // 创建请求
+        GetIndexRequest request = new GetIndexRequest(ElasticSearchConstant.INDEX_NAME);
+        // 发送请求
+        try {
+            return client.indices().exists(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 创建索引库
+     */
+    public void createIndex() {
+        // 创建请求
+        CreateIndexRequest request = new CreateIndexRequest(ElasticSearchConstant.INDEX_NAME);
+        // 请求参数
+        request.source(ElasticSearchConstant.MAPPING_TEMPLATE, XContentType.JSON);
+        // 发送请求
+        try {
+            client.indices().create(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 搜索关键词并结果高亮提示
+     * @param kw
+     * @return
+     */
     public SearchResponse search(String kw) {
-        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HttpHost.create(server)));;
+
         // 创建请求
         SearchRequest request = new SearchRequest(ElasticSearchConstant.INDEX_NAME);
         // 搜索内容
@@ -58,13 +97,15 @@ public class ElasticSearchUtil {
             throw new RuntimeException(e);
         }
 
-
         return response;
     }
 
+    /**
+     * 插入新文档
+     * @param id
+     * @param esData
+     */
     public void insert(String id, ESData esData){
-        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HttpHost.create(server)));;
-
         // doc to JSON
         String json = JSON.toJSONString(esData);
         // request
@@ -81,9 +122,11 @@ public class ElasticSearchUtil {
         }
     }
 
+    /**
+     * 删除文档
+     * @param id
+     */
     public void delete(String id){
-        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HttpHost.create(server)));;
-
         DeleteRequest request = new DeleteRequest(ElasticSearchConstant.INDEX_NAME, id);
         // 发送请求
         try {
@@ -94,13 +137,18 @@ public class ElasticSearchUtil {
         }
     }
 
+    /**
+     * 创建或更新文档
+     * @param id
+     * @param esData
+     */
     public void update(String id, ESData esData){
-        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HttpHost.create(server)));;
-
         // 准备Request
         IndexRequest request = new IndexRequest(ElasticSearchConstant.INDEX_NAME).id(id);
         // JSON
         String json = JSON.toJSONString(esData);
+        // 将数据放入请求体
+        request.source(json, XContentType.JSON);
         // 发送请求
         try {
             client.index(request, RequestOptions.DEFAULT);
