@@ -15,9 +15,9 @@ import com.yexca.mapper.PersonalDataMapper;
 import com.yexca.mapper.PersonalUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.PersonalDataService;
-import com.yexca.utils.AliOssUtil;
 import com.yexca.utils.ElasticSearchUtil;
 import com.yexca.utils.FiscoBcosUtil;
+import com.yexca.utils.S3OSSUtil;
 import com.yexca.vo.PersonalDataCommonVO;
 import com.yexca.vo.PersonalDataPageQueryVO;
 import com.yexca.vo.PersonalDataUpdateVO;
@@ -39,7 +39,7 @@ public class PersonalDataServiceImpl implements PersonalDataService {
     @Autowired
     private PersonalUserMapper personalUserMapper;
     @Autowired
-    private AliOssUtil aliOssUtil;
+    private S3OSSUtil s3OSSUtil;
     @Autowired
     private ElasticSearchUtil elasticSearchUtil;
     @Autowired
@@ -128,7 +128,7 @@ public class PersonalDataServiceImpl implements PersonalDataService {
     @Override
     public void deleteById(Long id) {
         // OSS删除
-        aliOssUtil.delete(personalDataMapper.getById(id).getFileLink());
+        s3OSSUtil.delete(personalDataMapper.getById(id).getFileLink());
         // 数据库删除
         personalDataMapper.deleteById(id);
         // ES删除

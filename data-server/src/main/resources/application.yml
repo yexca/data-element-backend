@@ -53,11 +53,17 @@ data-element:
     user-secret-key: lemon
     user-ttl: 7200000
     user-token-name: token
-  alioss:
-    access-key-id: ${data.alioss.access-key-id}
-    access-key-secret: ${data.alioss.access-key-secret}
-    bucket-name: ${data.alioss.bucket-name}
-    endpoint: ${data.alioss.endpoint}
+  s3oss:
+    access-key-id: ${data.s3oss.access-key-id}
+    access-key-secret: ${data.s3oss.access-key-secret}
+    bucket-name: ${data.s3oss.bucket-name}
+    endpoint: ${data.s3oss.endpoint}
+    region: ${data.s3oss.endpoint}
+#  alioss:
+#    access-key-id: ${data.alioss.access-key-id}
+#    access-key-secret: ${data.alioss.access-key-secret}
+#    bucket-name: ${data.alioss.bucket-name}
+#    endpoint: ${data.alioss.endpoint}
   elastic-search:
     server: ${data.elastic-search.server}
   fisco-ecos:

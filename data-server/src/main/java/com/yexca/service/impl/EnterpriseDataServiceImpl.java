@@ -15,9 +15,9 @@ import com.yexca.mapper.EnterpriseDataMapper;
 import com.yexca.mapper.EnterpriseUserMapper;
 import com.yexca.result.PageResult;
 import com.yexca.service.EnterpriseDataService;
-import com.yexca.utils.AliOssUtil;
 import com.yexca.utils.ElasticSearchUtil;
 import com.yexca.utils.FiscoBcosUtil;
+import com.yexca.utils.S3OSSUtil;
 import com.yexca.vo.EnterpriseDataPageQueryVO;
 import com.yexca.vo.EnterpriseDataUpdateVO;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +38,7 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
     @Autowired
     private CategoryMapper categoryMapper;
     @Autowired
-    private AliOssUtil aliOssUtil;
+    private S3OSSUtil s3OSSUtil;
     @Autowired
     private ElasticSearchUtil elasticSearchUtil;
     @Autowired
@@ -123,7 +123,7 @@ public class EnterpriseDataServiceImpl implements EnterpriseDataService {
     @Override
     public void deleteById(Long id) {
         // OSS删除
-        aliOssUtil.delete(enterpriseDataMapper.getById(id).getSampleFileLink());
+        s3OSSUtil.delete(enterpriseDataMapper.getById(id).getSampleFileLink());
         // 数据库删除
         enterpriseDataMapper.deleteById(id);
         // ES删除

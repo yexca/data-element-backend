@@ -5,7 +5,7 @@ import com.yexca.exception.FileDeleteFailException;
 import com.yexca.exception.FileUploadFailException;
 import com.yexca.result.Result;
 import com.yexca.service.FileService;
-import com.yexca.utils.AliOssUtil;
+import com.yexca.utils.S3OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 @Service
 public class FileServiceImpl implements FileService {
     @Autowired
-    private AliOssUtil aliOssUtil;
+    private S3OSSUtil s3OSSUtil;
 
     /**
      * 文件上传
@@ -36,7 +36,7 @@ public class FileServiceImpl implements FileService {
             // 构建新文件名
             String objectName = UUID.randomUUID().toString() + extension;
             // 文件请求路径
-            String filePath = aliOssUtil.upload(file.getBytes(), objectName);
+            String filePath = s3OSSUtil.upload(file.getBytes(), objectName);
             //返回文件路径
             return filePath;
         } catch (IOException e) {
@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService {
     public void delete(String file) {
         String fullFilename = extractFullFilenameIfUUID(file);
         if (fullFilename != null) {
-            aliOssUtil.delete(fullFilename);
+            s3OSSUtil.delete(fullFilename);
         } else {
             throw new FileDeleteFailException(MessageConstant.DELETE_FAILED);
 //            log.error("删除失败，文件名不是UUID格式");
