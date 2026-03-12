@@ -4,7 +4,6 @@ import com.yexca.constant.MessageConstant;
 import com.yexca.context.BaseContext;
 import com.yexca.result.Result;
 import com.yexca.service.FileService;
-import com.yexca.utils.AliOssUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

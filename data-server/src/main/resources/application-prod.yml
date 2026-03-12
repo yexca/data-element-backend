@@ -1,0 +1,16 @@
+data:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: mysql
+    port: 3306
+    database: dataelementai
+    username: root
+    password: 123456
+  s3oss:
+    bucket-name: data-element
+    endpoint:
+    access-key-secret:
+    access-key-id:
+    region:
+  elastic-search:
+    server: http://es:9200
