@@ -1,6 +1,7 @@
 # Data Element Market Supply-Side Management System - Backend
 
-Frontend repository: [data-element-frontend](https://github.com/yexca/data-element-frontend)
+Frontend: [yexca/data-element-frontend](https://github.com/yexca/data-element-frontend)  
+Deploy(Docker): [yexca/data-element-docker](https://github.com/yexca/data-element-docker)
 
 ## Overview
 
@@ -25,7 +26,7 @@ The system adopts a sophisticated microservice-oriented architecture with a clea
     * **MySQL:** For structured relational data (User/Product info).
     * **Elasticsearch:** For high-performance full-text search.
     * **Fisco Bcos (Blockchain):** For immutable transaction records and ownership tracing.
-    * **Aliyun OSS:** For unstructured object storage (files/samples).
+    * **OSS:** For unstructured object storage (files/samples).
 * **Interceptor Pattern:** A unified security layer handles JWT validation before requests reach the Controller.
 
 <details>
@@ -48,7 +49,7 @@ The database schema is designed to support RBAC (Role-Based Access Control) and 
   * **Role-Based Access Control (RBAC):** Fine-grained access control supporting multiple roles, including "Individual/Enterprise User" and "Employee/Administrator/Super Administrator".
   * **Data Search:** Leverages Elasticsearch to provide high-speed, full-text search capabilities for data products (utilizing the `ik_max_word` Chinese tokenizer).
   * **Blockchain Integration:** Records user registration information and data product metadata on the Fisco Bcos blockchain to ensure immutability of ownership and history.
-  * **Unstructured Data Management:** Manages user-uploaded data product files (or samples) using Aliyun OSS (Object Storage Service).
+  * **Unstructured Data Management:** Manages user-uploaded data product files (or samples) using OSS (Object Storage Service).
   * **Robust Architecture:** Employs a layered architecture with a clear separation of concerns (Controller, Service, and Mapper/Data Access Layer).
 
 ## 🛠 Tech Stack
@@ -60,36 +61,40 @@ The database schema is designed to support RBAC (Role-Based Access Control) and 
 | **Database** | MySQL 8.2 |
 | **Search Engine** | Elasticsearch 7.12.1 |
 | **Blockchain** | Fisco Bcos |
-| **Object Storage** | Aliyun OSS |
+| **Object Storage** | S3-compatible Object Storage |
 | **Authentication** | JWT (JSON Web Token) |
 | **Build / Deployment** | Maven, Docker / Docker Compose |
 
 ## Getting Started
 
-**1. Clone the repository:**
+### 🐳 Quick Deployment
+
+If you just want to deploy and run the system, please visit the deployment repository for Docker Compose instructions: [yexca/data-element-docker](https://github.com/yexca/data-element-docker)
+
+### 💻 Local Development
+
+To run or modify the backend locally:
+
+**1. Clone the repository**
 
 ```bash
 git clone https://github.com/yexca/data-element-backend.git
 cd data-element-backend
 ```
 
-**2. Set up dependencies:**
+**2. Configure the application**
 
-This system requires MySQL, Elasticsearch, Fisco Bcos, and Aliyun OSS to be running.
+Update `data-server/src/main/resources/application.yml`(and `application-prod.yml`) with your own infrastructure settings:
 
-**3. Configure the application:**
+- MySQL database connection
+- Elasticsearch URI
+- S3-compatible Object Storage credentials
+- *(Optional) Enable Fisco Bcos blockchain support and place the related files(abi, bin, conf) into `data-server/src/main/resources`*
 
-Open `src/main/resources/application.yml` (and `application-prod.yml`) and update the configuration details for your services (database connection, OSS keys, Elasticsearch address, etc.).
+**3. Run the application**
 
-**4. Run with Maven:**
+Start the project via your IDE or use Maven:
 
 ```bash
 mvn spring-boot:run
-```
-
-**5. Run with Docker (Recommended):**
-You can build the image and run it as a container, (e.g., alongside MySQL and Elasticsearch using Docker Compose).
-
-```bash
-docker build -t yexca/data-element:v1.1 .
 ```
